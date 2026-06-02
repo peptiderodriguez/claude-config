@@ -1,0 +1,9 @@
+- [User psychological style](user_psychological_style.md) — counterparty not tool, outsources critic-role to subagents, anxiety-binds via rules; trajectory: anxious-supervisor → trusting-but-auditing
+- [House style](feedback_house_style.md) — AskUserQuestion always, plan mode first, terse, never /tmp, numbered-reply coupling, compaction protocol, treat as counterparty
+- [Critique-loop macro](feedback_critique_loop.md) — full review checklist + adversarial subagents (3-4); synthesize don't dump; `/critique` drop-in drafted in vault
+- [Parallel subagents](feedback_use_agents.md) — default to parallel for non-trivial work, cap flexible; **subagents inherit parent sandbox — pre-grant pool/projects access before delegating**
+- [SLURM discipline](feedback_slurm_discipline.md) — no login node, scancel by job-id, pre/post-submission checks, stale-state hygiene, proactive `squeue` surfacing
+- [No fabricated panels](feedback_no_fabricated_panels.md) — PDF-grep before citing gene lists as "from paper X" (Thienel-panel scar)
+- [Pool + workflow + skill candidates](project_pool_and_workflow.md) — `/Volumes/`↔`/fs/` symmetry, code_bin repo map, partition table, 3-5 parallel sessions + daily-note coordination, Obsidian vault role, open skill candidates
+- [Stop parsing — restructure the substrate](stop_parsing_restructure_the_substrate.md) — when the N-th bug-fix spawns the next edge case, the parser is wrong; build a structured representation. Citation audit / SIFTS residue map / target.chain_extract scars.
+- [Onboarding methodology](process_onboard_methodology.md) — rationale + meta-lessons companion to the `/onboard` skill; phase rationale, anti-patterns, when to re-run the meta-analysis.

@@ -1,0 +1,3 @@
+# Docs site dependencies — `pip install -r requirements-docs.txt`
+# PyMdown Extensions and the search plugin ship as deps of mkdocs-material.
+mkdocs-material>=9.5

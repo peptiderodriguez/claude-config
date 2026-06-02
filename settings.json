@@ -1,0 +1,124 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/squeue_inject.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/surprise_capture.sh",
+            "timeout": 3
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/re_derive_state_inject.sh",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/scancel_guard.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/pre_sbatch_guard.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/tmp_write_guard.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/tmp_write_guard.sh",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Task|Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/subagent_sandbox_preflight.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/post_critique_dissent.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/headline_numbers_check.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/pmid_citation_guard.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/postcompact_resume.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/session_digest.sh",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/session_end_audit.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "effortLevel": "high",
+  "theme": "light-daltonized",
+  "verbose": true
+}
