@@ -7,3 +7,5 @@
 - [Pool + workflow + skill candidates](project_pool_and_workflow.md) — `/Volumes/`↔`/fs/` symmetry, code_bin repo map, partition table, 3-5 parallel sessions + daily-note coordination, Obsidian vault role, open skill candidates
 - [Stop parsing — restructure the substrate](stop_parsing_restructure_the_substrate.md) — when the N-th bug-fix spawns the next edge case, the parser is wrong; build a structured representation. Citation audit / SIFTS residue map / target.chain_extract scars.
 - [Onboarding methodology](process_onboard_methodology.md) — rationale + meta-lessons companion to the `/onboard` skill; phase rationale, anti-patterns, when to re-run the meta-analysis.
+- [Controls through the pipeline](feedback_controls_through_pipeline.md) — positive/negative controls run through the SAME standard pipeline as samples, de novo; never special-cased.
+- [Wet-lab gating](feedback_wetlab_gating.md) — don't push toward wet-lab / expensive irreversible steps until the computational pipeline is verified green.

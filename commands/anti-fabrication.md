@@ -20,6 +20,7 @@ Any artifact containing claims that look citable. The recurring failure modes th
 | Sister-protein confusion | PDB ID names the right family but the wrong member (CXCR4 vs HTR2A; PTPN6 vs PTPN11) |
 | "Common knowledge" | Asserting cycle parameters / cell densities / doubling times without vendor source — drift over revisions |
 | Convenient match | Closing a `[NEEDS CITATION]` marker by finding a PMID that *looks like* it matches the existing residue list — circular calibration |
+| User-supplied claim | A PMID / PDB / accession the *user* hands you is asserted unchecked because it came from a human — but user-supplied citations fail identically. Whole operator-supplied briefs have resolved, en masse, to unrelated papers / wrong protein families |
 
 ## The contract
 
@@ -161,6 +162,8 @@ provenance:
 4. **Output a citation_audit block as standard**: when shipping any new fixture, doc, or protocol artifact that contains 3+ citable claims, end the artifact with a citation_audit block in the format above. This is the same shape the C3 CitationAudit dataclass enforces at test time.
 
 5. **Surface the curator handoff explicitly**: every `[NEEDS X]` marker names (a) the specific document/source to consult, (b) the location/URL of that source, (c) the minimum evidence that would resolve the marker.
+
+6. **User-supplied citations get the same verification.** A PMID / PDB / accession the *user* hands you is NOT trusted on arrival — verify it exactly as one you generated. Entire operator-supplied briefs have been fabricated end-to-end (every PMID resolving to an unrelated paper; PDB IDs naming the wrong protein family), caught only by independent WebFetch. *"The human gave me this ID"* is not verification.
 
 ## Mechanical witness — the PMID citation guard hook
 
