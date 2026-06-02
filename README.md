@@ -22,7 +22,7 @@ Needs Claude Code + the `jq` CLI + `python3` — see [Prerequisites](#prerequisi
 
 A `~/.claude/` install that **auto-fires the right discipline at the right time** across every Claude Code session, without you having to remember the rule. Specifically:
 
-- **10 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
+- **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
 - **3 custom agents** with TRIGGER conditions — for adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), and dissent meta-check (`dissent-auditor`).
 - **13 hooks** — mechanically enforce rules (block destructive commands, inject context on status questions, surface scar-anchored pre-flight checks, etc.).
 - **Durable memory** across sessions for the patterns that don't fit in the global CLAUDE.md.
@@ -56,13 +56,14 @@ Grouped by portability — if you're adopting this, **tier 1 transfers to anyone
 | `onboard` | Re-run the meta-analysis methodology if friction patterns re-emerge | "analyze how I use you", "audit my Claude setup" |
 | `scaffold-agent` | Bootstrap a new subagent spec with the conventions converged across `dfg-reviewer` / `frame-auditor` / `dissent-auditor` | "scaffold a new agent" |
 | `scaffold-discipline` | Plan to bootstrap the drop-in anti-rot tier (`_rot_exceptions.py`, `audit_xfail_age.py`, placeholder-citations scanner, hygiene block, `_pre_push_suite_green.sh`, CI mirroring) into a fresh repo | "set up anti-rot", "bootstrap pre-commit", "scaffold discipline" |
+| `scaffold-analyze` | Generate a project's `/analyze` command — an interactive pipeline UI guiding novice/pro users through the workflow; interviews you + writes `<project>/.claude/commands/analyze.md` from the convention | "scaffold an analyze command", "give my pipeline a Claude UI" |
 
 **Tier 2 — Research-general (any scientist):**
 
 | Skill | What it does | Auto-fires when |
 |---|---|---|
 | `anti-fabrication` | Refuse to invent PMIDs, PDB IDs, UniProt accessions, vendor catalog numbers, etc. — every claim either verified or `[NEEDS X — check Y at Z]` | Mentions of PMID / PDB / UniProt / Addgene / vendor cat / cite |
-| `grant-work-mode` | Bundles canonical-headlines (read from project source-of-truth file, NOT hardcoded), stakes-flip-side, no-hedged-claims, reviewer-proof posture | Cwd contains `rlink2026` / `*grant*`, OR prompt mentions DFG / NIH / NSF / submission / reviewer-proof / preregistration |
+| `grant-work-mode` | Bundles canonical-headlines (read from project source-of-truth file, NOT hardcoded), stakes-flip-side, no-hedged-claims, reviewer-proof posture | Cwd contains `grant-repo` / `*grant*`, OR prompt mentions DFG / NIH / NSF / submission / reviewer-proof / preregistration |
 
 **Tier 3 — Domain & infra-specific (HPC + omics):**
 
@@ -86,7 +87,7 @@ Grouped by portability — if you're adopting this, **tier 1 transfers to anyone
 | `squeue_inject.sh` | UserPromptSubmit | Injects squeue snapshot on cluster hosts (silent on Mac) |
 | `surprise_capture.sh` | UserPromptSubmit | Detects "huh / wait what / aha / TIL" — offers to capture as durable memory once |
 | `re_derive_state_inject.sh` | UserPromptSubmit | Detects status/orientation phrasings ("how are the jobs", "stuck?", "any update", "did anything finish") — injects re-derive-from-disk reminder before Claude quotes from a stale summary |
-| `scancel_guard.sh` | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (past wiped-libgen scar). Kill by explicit job-id list instead. |
+| `scancel_guard.sh` | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (past wiped-library-gen scar). Kill by explicit job-id list instead. |
 | `pre_sbatch_guard.sh` | PreToolUse (Bash) | Injects scar-anchored pre-flight (env-source, dependency IDs, num-gpus, etc.); **ASKS for confirmation** on portfolio-scale launches (≥2 sbatch + no env-source) |
 | `tmp_write_guard.sh` | PreToolUse (Bash / Write / Edit / MultiEdit / NotebookEdit) | **DENIES** writes to `/tmp/*` (highest-scar rule — "dude i thought i told you not to write to tmp" is non-recoverable) |
 | `subagent_sandbox_preflight.sh` | PreToolUse (Task / Agent) | Warns when subagent briefings reference paths outside this cwd's `settings.local.json::additionalDirectories` (catches the silent "I need permission" failure mode) |
@@ -123,10 +124,10 @@ User: *"review the migration plan for issues / bugs / inefficiencies"*
 - Step 5.5 dispatches `dissent-auditor` to check convergence
 - Synthesis: blockers + convergent concerns + persona-specific + "what they agreed was fine" + Claude's independent take
 
-**Example 4 — Edit to `rlink2026/biology_for_grant.md` → headline regression auto-check.**
-Tool call: `Edit(file_path="/Volumes/pool-mann-<operator>/code_bin/rlink2026/biology_for_grant.md", ...)`
+**Example 4 — Edit to `grant-repo/biology_for_grant.md` → headline regression auto-check.**
+Tool call: `Edit(file_path="/Volumes/pool-mann-<operator>/code_bin/grant-repo/biology_for_grant.md", ...)`
 Hook (PostToolUse, Edit matcher): `headline_numbers_check.sh`
-1. Walks up to repo root (`rlink2026/`)
+1. Walks up to repo root (`grant-repo/`)
 2. Reads `<repo>/.claude/headline_numbers_check.yaml` — finds trigger_paths matching the edited file
 3. Runs `scripts/test_grant_headline_numbers.py`
 4. If the test fails (a locked number was drifted) → emits loud warning context: *"⚠ HEADLINE-NUMBERS REGRESSION on edit to <file>. Likely cause: locked headline changed. Re-derive from canonical CSV, then either update the test (if intentional + documented) or revert. Do NOT silently re-edit to match — bakes drift into the canon."*
@@ -166,7 +167,7 @@ git add -A && git commit -m "sync: <what changed>"
 git push     # if remote configured
 ```
 
-The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 13 hooks, the hook test harness (`hooks/tests/`), all 10 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
+The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 13 hooks, the hook test harness (`hooks/tests/`), all 11 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
 
 ## Documentation site
 
@@ -202,7 +203,7 @@ If this repo or its patterns inform your own setup or writing, a citation is app
 
 Initial bootstrap: 2026-05-24 — meta-analysis of ~5,270 user messages + 6 pool `CLAUDE.md` files + 5 `/analyze` slash-commands. See `meta_claude_usage_2026-05-24.md` + `_v3.md` for the operator-platform reframe.
 
-2026-05-31 to 2026-06-01 expansion: deep mining across all active project CLAUDE.mds (minibinder + alphaquant + xldvp_seg + rlink2026 + ehr_proteomics + ehr_r046) + 18 conversation_*.md scratchpads + the most-recent daily notes — producing the driving-philosophies section, 5 new hooks (`tmp_write_guard`, `subagent_sandbox_preflight`, `pre_sbatch_guard`, `re_derive_state_inject`, `headline_numbers_check`), and 4 new skills (`anti-fabrication` hoisted from minibinder, `grant-work-mode`, `covariate-screen`, `scaffold-discipline`). Adversarial /critique pass surfaced 3 blockers + 6 serious + frame-skeptic-flagged decoration, all corrected in-session.
+2026-05-31 to 2026-06-01 expansion: deep mining across all active project CLAUDE.mds (binder-design + proteomics-quant + imaging-seg + grant-repo + clinical-omics + clinical-omics-2) + 18 conversation_*.md scratchpads + the most-recent daily notes — producing the driving-philosophies section, 5 new hooks (`tmp_write_guard`, `subagent_sandbox_preflight`, `pre_sbatch_guard`, `re_derive_state_inject`, `headline_numbers_check`), and 4 new skills (`anti-fabrication` hoisted from binder-design, `grant-work-mode`, `covariate-screen`, `scaffold-discipline`). Adversarial /critique pass surfaced 3 blockers + 6 serious + frame-skeptic-flagged decoration, all corrected in-session.
 
 ## Notes
 

@@ -48,7 +48,7 @@ def load_matrix(path, kind):
 
 Skip unless `kind ∈ {plasma proteomics, csf proteomics}`. Without it, hemolysis / platelet-activation / ex-vivo-coagulation artifacts ride into the test variable and look like biology. Most insidiously, the **erythrocyte panel overlaps the sex hemoglobin signal**, so a real sex effect can be amplified or faked by hemolysis variance.
 
-Use the canonical implementation when available (`from ehr_proteomics_analysis.contamination import score_contamination, flag_contaminated_samples; from ehr_proteomics_analysis.contamination_panels import GEYER_2019_PANELS`) — it ships the paper-verified 37 erythrocyte / 30 platelet / 32 coagulation genes with **directional** signs (FGA/FGB/F2/SERPINC1 *fall* with activation while PPBP/PF4/CLU/KNG1 *rise* — an unsigned mean would silently cancel the signal). When the package isn't on path, vendor `GEYER_2019_PANELS` inline (it's dataset-independent) and score directionally:
+Use the canonical implementation when available (`from clinical-omics.contamination import score_contamination, flag_contaminated_samples; from clinical-omics.contamination_panels import GEYER_2019_PANELS`) — it ships the paper-verified 37 erythrocyte / 30 platelet / 32 coagulation genes with **directional** signs (FGA/FGB/F2/SERPINC1 *fall* with activation while PPBP/PF4/CLU/KNG1 *rise* — an unsigned mean would silently cancel the signal). When the package isn't on path, vendor `GEYER_2019_PANELS` inline (it's dataset-independent) and score directionally:
 
 ```python
 # per panel: z-score of per-sample mean of (intensity * direction_sign)
@@ -137,4 +137,4 @@ Per clinical variable: (1) collapse to one row per patient (mean log2 across the
 
 - `~/.claude/commands/anti-fabrication.md` — applies to any cited panel composition (Geyer 2019 panel members must trace to Table EV2)
 - Global CLAUDE.md "Don't double-correct paired designs" rule — Phase 4 cross-references it
-- Project-local instance: `/Volumes/pool-mann-<operator>/code_bin/ehr_proteomics_analysis/.claude/commands/clinical_eda.md` (DIA-NN-specific source this generalises)
+- Project-local instance: `/Volumes/pool-mann-<operator>/code_bin/clinical-omics/.claude/commands/clinical_eda.md` (DIA-NN-specific source this generalises)

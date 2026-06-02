@@ -1,6 +1,6 @@
 Auto-load grant-work discipline. Bundles canonical-headlines, stakes-flip-side, no-hedged-claims, and reviewer-proof posture for any session touching grant prose / preregistration / fundability docs.
 
-TRIGGER auto-fire (do not wait for explicit invocation) when ANY of: (a) cwd path contains `rlink2026` / `*/grant*/` / `*_grant_*`; (b) the user prompt or recent context contains "grant", "DFG", "NIH", "NSF", "submission", "fundable", "reviewer-proof", "preregistration", "prereg", "PI sign-off", "deadline"; (c) the user is editing files matching `*biology_for_grant*.md`, `*abstract*.md`, `*aims*.tex`, `*FUNDABILITY*.md`, `*preregistration*.md`, `*grant_prep*`. Surface the bundle even if the operator hasn't asked — these are scar-anchored rules they keeps having to re-instruct.
+TRIGGER auto-fire (do not wait for explicit invocation) when ANY of: (a) cwd path contains `grant-repo` / `*/grant*/` / `*_grant_*`; (b) the user prompt or recent context contains "grant", "DFG", "NIH", "NSF", "submission", "fundable", "reviewer-proof", "preregistration", "prereg", "PI sign-off", "deadline"; (c) the user is editing files matching `*biology_for_grant*.md`, `*abstract*.md`, `*aims*.tex`, `*FUNDABILITY*.md`, `*preregistration*.md`, `*grant_prep*`. Surface the bundle even if the operator hasn't asked — these are scar-anchored rules they keeps having to re-instruct.
 
 SKIP when: prompt is purely about cluster ops / code refactors with no grant-prose touch; already invoked this turn; trivial typo fixes.
 
@@ -17,11 +17,11 @@ Grant prose may only quote quantitative claims that either (a) trace to the *loc
 
 **Staleness check.** If the source-of-truth file's mtime is older than 30 days, warn explicitly: *"Headlines were locked on YYYY-MM-DD (N days ago). Re-derive from canonical CSV at HEAD before quoting in grant prose."*
 
-**Mechanical gate.** The `~/.claude/hooks/headline_numbers_check.sh` PostToolUse hook fires on any Edit/Write to a file matching the project's `trigger_paths` (configured in `.claude/headline_numbers_check.yaml`). When triggered it runs `<test_script>` from the repo root. Non-zero exit surfaces as loud `additionalContext` warning — the edit isn't blocked (it already landed), but the regression is loud. Project opts in by shipping the YAML + a `scripts/test_headline_numbers.py` (or equivalent) — see the canonical rlink2026 setup at `/Volumes/pool-mann-<operator>/code_bin/rlink2026/.claude/settings.local.json` (which has the same hook wired locally with a `PostToolUse` matcher).
+**Mechanical gate.** The `~/.claude/hooks/headline_numbers_check.sh` PostToolUse hook fires on any Edit/Write to a file matching the project's `trigger_paths` (configured in `.claude/headline_numbers_check.yaml`). When triggered it runs `<test_script>` from the repo root. Non-zero exit surfaces as loud `additionalContext` warning — the edit isn't blocked (it already landed), but the regression is loud. Project opts in by shipping the YAML + a `scripts/test_headline_numbers.py` (or equivalent) — see the canonical grant-repo setup at `/Volumes/pool-mann-<operator>/code_bin/grant-repo/.claude/settings.local.json` (which has the same hook wired locally with a `PostToolUse` matcher).
 
-**rlink2026 opt-in setup (one-time, per project):**
+**grant-repo opt-in setup (one-time, per project):**
 ```yaml
-# /Volumes/pool-mann-<operator>/code_bin/rlink2026/.claude/headline_numbers_check.yaml
+# /Volumes/pool-mann-<operator>/code_bin/grant-repo/.claude/headline_numbers_check.yaml
 test_script: scripts/test_grant_headline_numbers.py
 trigger_paths:
   - "grant_prep/.*\\.md$"

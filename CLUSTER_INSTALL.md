@@ -1,13 +1,13 @@
 # Cluster-side install runbook — for Claude to follow
 
-You are a Claude Code session running on the the HPC cluster (or any non-Mac host). The user wants you to install the global Claude Code infrastructure from this snapshot into the cluster's `$HOME/.claude/`.
+You are a Claude Code session running on the HPC cluster (or any non-Mac host). The user wants you to install the global Claude Code infrastructure from this snapshot into the cluster's `$HOME/.claude/`.
 
 ## What you're installing
 
 A snapshot of `~/.claude/`, path-agnostic (Mac paths tokenized as `__CLAUDE_HOME__`), containing:
 
 - **Global rules** (`CLAUDE.md`) — house style, cluster discipline, subagent rules, statistics methodology, driving philosophies, etc.
-- **10 custom skills** with auto-fire TRIGGERs (`commands/*.md`): `critique`, `cluster-traffic`, `sessions`, `orient`, `onboard`, `scaffold-agent`, `anti-fabrication`, `grant-work-mode`, `covariate-screen`, `scaffold-discipline`
+- **11 custom skills** with auto-fire TRIGGERs (`commands/*.md`): `critique`, `cluster-traffic`, `sessions`, `orient`, `onboard`, `scaffold-agent`, `scaffold-analyze`, `anti-fabrication`, `grant-work-mode`, `covariate-screen`, `scaffold-discipline`
 - **3 custom agents** (`agents/*.md`): `dfg-reviewer`, `frame-auditor`, `dissent-auditor`
 - **13 hooks** (`hooks/*.sh`) — mechanical enforcement (scancel-deny, /tmp-write-deny, sbatch-preflight, PMID-citation-guard, etc.)
 - **Settings wiring** (`settings.json`)
@@ -82,7 +82,7 @@ Until one of these happens, the newly-installed hooks are present on disk but NO
 ```bash
 echo "=== Files installed ==="
 ls "$HOME/.claude/CLAUDE.md" "$HOME/.claude/settings.json"
-ls "$HOME/.claude/commands/" | wc -l   # >= 10 (10 custom from snapshot + any pre-existing globals)
+ls "$HOME/.claude/commands/" | wc -l   # >= 11 (11 custom from snapshot + any pre-existing globals)
 ls "$HOME/.claude/agents/" | wc -l     # should be 3
 ls "$HOME/.claude/hooks/"*.sh | wc -l  # should be 13
 ls "$HOME/.claude/scripts/" 2>/dev/null

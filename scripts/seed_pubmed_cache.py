@@ -8,7 +8,7 @@ violations. This script makes that fix actually doable.
 Cache record shape matches the schema the hook reads (see
 ~/.claude/hooks/pmid_citation_guard.sh, the `cache[...] = d` line) and
 the canonical fixture at
-/Volumes/pool-mann-<operator>/code_bin/minibinder/tests/fixtures/pubmed_cache/10201409.json:
+/Volumes/pool-mann-<operator>/code_bin/binder-design/tests/fixtures/pubmed_cache/10201409.json:
 
     {"pmid": "...", "first_author": "<Surname>", "year": "YYYY",
      "journal": "<name>", "title": "<title>"}

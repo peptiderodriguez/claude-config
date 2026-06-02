@@ -8,13 +8,13 @@ SKIP when: not running on the operator's machine (no `/Users/<operator>/data/cod
 
 1. **Resolve today's note.** Format: `/Users/<operator>/data/code/obsidian_base/<DayOfWeek MMM DD YYYY>.md` (e.g. `Sunday May 24 2026.md`). Compute from `date +'%A %B %d %Y'` (strip leading 0 from day if present). If the file doesn't exist, create it with an empty `- CLAUDE SESSIONS:` block at the top.
 
-2. **Determine the session name.** AskUserQuestion: *"Session name for this Claude Code session?"* — provide 2-3 suggestions based on cwd (basename of cwd, last component of pool path, or a short task label) + Other for free text. Names should be short, tmux-style: `grant`, `minibinder2`, `senescence`, etc.
+2. **Determine the session name.** AskUserQuestion: *"Session name for this Claude Code session?"* — provide 2-3 suggestions based on cwd (basename of cwd, last component of pool path, or a short task label) + Other for free text. Names should be short, tmux-style: `grant`, `binder-design2`, `aging-study`, etc.
 
 3. **Determine the path to log.** Use `$PWD`. If under `/Volumes/pool-mann-<operator>/`, normalize to the `/fs/pool/pool-mann-<operator>/` form (their daily notes use the HPC form — that's the canonical reference). Show both and let them confirm.
 
 4. **Edit the daily note.** Find the `- CLAUDE SESSIONS:` block. Insert under it: `    - <session-name>: <path>`. If the same session-name already exists with a different path, ask whether to update or add as new (e.g. `grant2`).
 
-5. **Confirm to the user** in one line: `Logged: grant → /fs/pool/pool-mann-<operator>/code_bin/rlink2026`.
+5. **Confirm to the user** in one line: `Logged: grant → /fs/pool/pool-mann-<operator>/code_bin/grant-repo`.
 
 ## End-of-session variant
 
@@ -29,10 +29,10 @@ If user asks "what sessions am I running?" or "show today's sessions": just `cat
 - The block format the operator uses is YAML-flavored markdown bullet:
   ```
   - CLAUDE SESSIONS:
-      - grant: /fs/pool/pool-mann-<operator>/code_bin/rlink2026
-      - senescence: /fs/pool/pool-mann-<operator>/code_bin/xldvp_seg
-      - minibinder2: /fs/pool/pool-mann-<operator>/code_bin/minibinder
+      - grant: /fs/pool/pool-mann-<operator>/code_bin/grant-repo
+      - aging-study: /fs/pool/pool-mann-<operator>/code_bin/imaging-seg
+      - binder-design2: /fs/pool/pool-mann-<operator>/code_bin/binder-design
   ```
-- Same repo can host multiple task-scoped sessions (e.g. `csf3` + `rlink` + `marcpos2` all in `alphaquant`). Don't reject a duplicate path; check the name.
+- Same repo can host multiple task-scoped sessions (e.g. `session-b` + `rlink` + `session-a` all in `proteomics-quant`). Don't reject a duplicate path; check the name.
 - This skill replaces manual book-keeping. The daily note is the operator's inter-session working memory — it must stay accurate or it becomes worse than nothing.
 - Don't auto-remove on session end unless the user explicitly asks — sessions sometimes pause and resume.

@@ -1,14 +1,14 @@
 ---
 name: scaffold-discipline
-description: Bootstrap minibinder's drop-in anti-rot tier into a fresh the operator repo. Creates `.rot-exceptions.yaml` (dated-expiry-only deferrals, fail-closed), `scripts/_rot_exceptions.py` (shared loader), `scripts/audit_xfail_age.py` (90d xfail budget), `placeholder-citations-audit` hook (`[NEEDS CITATION]` / `[PENDING]` / `[FIXME]` / `[TODO CITATION]` scanner), the pre-commit-hooks v5.0.0 hygiene block, ruff config, `scripts/_pre_push_suite_green.sh` (commit-pinned suite-green stamp gate), and the matching GitHub Actions jobs so `--no-verify` surfaces in PR checks.
+description: Bootstrap a reusable drop-in anti-rot tier into a project repo (new or existing). Creates `.rot-exceptions.yaml` (dated-expiry-only deferrals, fail-closed), `scripts/_rot_exceptions.py` (shared loader), `scripts/audit_xfail_age.py` (90d xfail budget), `placeholder-citations-audit` hook (`[NEEDS CITATION]` / `[PENDING]` / `[FIXME]` / `[TODO CITATION]` scanner), the pre-commit-hooks v5.0.0 hygiene block, ruff config, `scripts/_pre_push_suite_green.sh` (commit-pinned suite-green stamp gate), and the matching GitHub Actions jobs so `--no-verify` surfaces in PR checks.
 trigger: When the user says "scaffold discipline", "set up anti-rot for this project", "bootstrap pre-commit", "set up CI mirroring", "I'm starting a new pipeline repo", "drop in the operator's discipline conventions", or starts work in a fresh repo under `code_bin/` that lacks `.pre-commit-config.yaml`.
 ---
 
 # Scaffold discipline skill
 
-Drop minibinder's drop-in anti-rot tier into a new repo. The skill is a **planner + step-by-step**: it surfaces the exact files to write, the canonical sources to copy from, and the matching CI stanzas — it does NOT execute writes itself. The user (or a follow-up turn) writes the files.
+Drop a reusable drop-in anti-rot tier into a project repo (new or existing). The skill is a **planner + step-by-step**: it surfaces the exact files to write, the canonical sources to copy from, and the matching CI stanzas — it does NOT execute writes itself. The user (or a follow-up turn) writes the files.
 
-Canonical source repo: `/Volumes/pool-mann-<operator>/code_bin/minibinder/`. Every file referenced below is verified to exist there as of 2026-05.
+**Note for public users:** the canonical source files referenced below live in the operator's own project repos and are **not bundled in this public template**. Treat the specs and file lists below as a blueprint to recreate the tier in your project.
 
 ## Sequence
 
@@ -27,27 +27,27 @@ Report what's already present. The scaffold is additive — never overwrite an e
 Single call, up to 4 questions:
 
 - **Drop-in tier (always on)** — confirm: hygiene + ruff + xfail-age + placeholder-citations + `_rot_exceptions.py` + `_pre_push_suite_green.sh`. (Default: yes; skip if user already said yes in the prompt.)
-- **Failure-modes-log convention** — opt-in. Adds `docs/failure_modes_log.md` + `scripts/failure_log_coverage.py` (every `OPEN`/`MITIGATED` entry must declare an `auto-detector:` field). Source: `minibinder/scripts/failure_log_coverage.py`.
-- **Locked-holdout pattern** — opt-in. Adds `scripts/audit_holdout_no_peek.py` + a `docs/calibration_holdout_<DATE>.yaml` stub. Only useful if the project will have validation fixtures w/ train-test discipline. Source: `minibinder/scripts/audit_holdout_no_peek.py`.
-- **Schema-default audit** — opt-in. Adds `scripts/audit_schema_defaults.py` — only useful if the project has a `src/<pkg>/config_schema.py` with `FieldSpec`-style defaults to keep in sync with a `docs/publication_bars.yaml`. Source: `minibinder/scripts/audit_schema_defaults.py`.
+- **Failure-modes-log convention** — opt-in. Adds `docs/failure_modes_log.md` + `scripts/failure_log_coverage.py` (every `OPEN`/`MITIGATED` entry must declare an `auto-detector:` field). Source: `binder-design/scripts/failure_log_coverage.py`.
+- **Locked-holdout pattern** — opt-in. Adds `scripts/audit_holdout_no_peek.py` + a `docs/calibration_holdout_<DATE>.yaml` stub. Only useful if the project will have validation fixtures w/ train-test discipline. Source: `binder-design/scripts/audit_holdout_no_peek.py`.
+- **Schema-default audit** — opt-in. Adds `scripts/audit_schema_defaults.py` — only useful if the project has a `src/<pkg>/config_schema.py` with `FieldSpec`-style defaults to keep in sync with a `docs/publication_bars.yaml`. Source: `binder-design/scripts/audit_schema_defaults.py`.
 
 ### 3. Emit the write plan (per opted-in tier)
 
 For each file below, surface a concrete instruction shaped like:
 
-> Create `<cwd>/scripts/_rot_exceptions.py` by copying `/Volumes/pool-mann-<operator>/code_bin/minibinder/scripts/_rot_exceptions.py` verbatim. The file is project-agnostic — no edits needed (the loader resolves `REPO_ROOT = Path(__file__).resolve().parents[1]` dynamically).
+> Create `<cwd>/scripts/_rot_exceptions.py` by copying `/Volumes/pool-mann-<operator>/code_bin/binder-design/scripts/_rot_exceptions.py` verbatim. The file is project-agnostic — no edits needed (the loader resolves `REPO_ROOT = Path(__file__).resolve().parents[1]` dynamically).
 
 #### Drop-in tier files (always)
 
 | Target path (cwd-relative) | Source (verbatim copy) | Edits needed |
 |---|---|---|
-| `scripts/_rot_exceptions.py` | `minibinder/scripts/_rot_exceptions.py` | None — project-agnostic (resolves repo root via `__file__`). |
-| `.rot-exceptions.yaml` | `minibinder/.rot-exceptions.yaml` lines 1-30 (header doc + empty `exceptions:` list); strip the historical RESOLVED entries (lines 31-91). | Replace `# Hook ids:` block with the subset the project actually installs. Keep `xfail_age`, `placeholder_citations`. Add others only if opted-in. |
-| `scripts/audit_xfail_age.py` | `minibinder/scripts/audit_xfail_age.py` | None — pure AST, imports only stdlib + `_rot_exceptions`. `MAX_AGE_DAYS = 90` is intentional; leave it. |
-| `scripts/citation_audit.py` (placeholder scanner only) | `minibinder/scripts/citation_audit.py` — the `_PLACEHOLDER_TOKENS` tuple at line 89 + `_scan_placeholders` at line 98 + the `--fail-on-placeholder` arg-parser branch | If the project doesn't need PMID auditing yet, ship a TRIMMED version with only the placeholder scanner. Tokens: `[NEEDS CITATION]`, `[PENDING]`, `[FIXME]`, `[TODO CITATION]`. **Do NOT include `[PENDING CURATOR]`** — that token is a curator sentinel, not a placeholder; minibinder explicitly removed it on 2026-06-01 (issue #88) because gating commits on it blocked every commit while any onboarded-but-unlaunched template existed. See `minibinder/scripts/citation_audit.py:89-105` for the verbatim rationale and memory `[[never-degrade-citation-detection]]`. |
-| `scripts/_pre_push_suite_green.sh` | `minibinder/scripts/_pre_push_suite_green.sh` | None for the script itself. BUT — the script depends on `results/_suite_green_stamp.json` being produced by *some* CI job. Either (a) emit a placeholder `scripts/_suite_green_gate.sbatch` if the project will use SLURM, OR (b) note that until the gate-producer exists, the pre-push hook will block every push — operator should run a one-shot `python -c 'import json; json.dump({"commit": "<HEAD>", "tree_dirty_files": 0, "failures": 0}, open("results/_suite_green_stamp.json","w"))'` after each green local test run. Flag this trade-off explicitly. |
-| `.pre-commit-config.yaml` | Use `minibinder/.pre-commit-config.yaml` lines 1-77 (header doc + `default_install_hook_types: [pre-commit, pre-push]` + hygiene block + ruff block) as the skeleton. APPEND only the local hooks the user opted into. | Strip the project-internal doc comment lines 1-42; replace with a one-line header naming the current project. The `default_install_hook_types: [pre-commit, pre-push]` line at minibinder line 43 is **load-bearing** — keep it so a plain `pre-commit install` wires the pre-push hook too. |
-| `pyproject.toml` (ruff config) | If pyproject lacks `[tool.ruff]`, add: `[tool.ruff] line-length = 100, target-version = "py310"` (mirror minibinder convention). | Match the ruff-pre-commit `rev: v0.7.4` pin in the pre-commit config. |
+| `scripts/_rot_exceptions.py` | `binder-design/scripts/_rot_exceptions.py` | None — project-agnostic (resolves repo root via `__file__`). |
+| `.rot-exceptions.yaml` | `binder-design/.rot-exceptions.yaml` lines 1-30 (header doc + empty `exceptions:` list); strip the historical RESOLVED entries (lines 31-91). | Replace `# Hook ids:` block with the subset the project actually installs. Keep `xfail_age`, `placeholder_citations`. Add others only if opted-in. |
+| `scripts/audit_xfail_age.py` | `binder-design/scripts/audit_xfail_age.py` | None — pure AST, imports only stdlib + `_rot_exceptions`. `MAX_AGE_DAYS = 90` is intentional; leave it. |
+| `scripts/citation_audit.py` (placeholder scanner only) | `binder-design/scripts/citation_audit.py` — the `_PLACEHOLDER_TOKENS` tuple at line 89 + `_scan_placeholders` at line 98 + the `--fail-on-placeholder` arg-parser branch | If the project doesn't need PMID auditing yet, ship a TRIMMED version with only the placeholder scanner. Tokens: `[NEEDS CITATION]`, `[PENDING]`, `[FIXME]`, `[TODO CITATION]`. **Do NOT include `[PENDING CURATOR]`** — that token is a curator sentinel, not a placeholder; binder-design explicitly removed it on 2026-06-01 (issue #88) because gating commits on it blocked every commit while any onboarded-but-unlaunched template existed. See `binder-design/scripts/citation_audit.py:89-105` for the verbatim rationale and memory `[[never-degrade-citation-detection]]`. |
+| `scripts/_pre_push_suite_green.sh` | `binder-design/scripts/_pre_push_suite_green.sh` | None for the script itself. BUT — the script depends on `results/_suite_green_stamp.json` being produced by *some* CI job. Either (a) emit a placeholder `scripts/_suite_green_gate.sbatch` if the project will use SLURM, OR (b) note that until the gate-producer exists, the pre-push hook will block every push — operator should run a one-shot `python -c 'import json; json.dump({"commit": "<HEAD>", "tree_dirty_files": 0, "failures": 0}, open("results/_suite_green_stamp.json","w"))'` after each green local test run. Flag this trade-off explicitly. |
+| `.pre-commit-config.yaml` | Use `binder-design/.pre-commit-config.yaml` lines 1-77 (header doc + `default_install_hook_types: [pre-commit, pre-push]` + hygiene block + ruff block) as the skeleton. APPEND only the local hooks the user opted into. | Strip the project-internal doc comment lines 1-42; replace with a one-line header naming the current project. The `default_install_hook_types: [pre-commit, pre-push]` line at binder-design line 43 is **load-bearing** — keep it so a plain `pre-commit install` wires the pre-push hook too. |
+| `pyproject.toml` (ruff config) | If pyproject lacks `[tool.ruff]`, add: `[tool.ruff] line-length = 100, target-version = "py310"` (mirror binder-design convention). | Match the ruff-pre-commit `rev: v0.7.4` pin in the pre-commit config. |
 
 #### Pre-commit local hook stanzas (paste into `.pre-commit-config.yaml` under `- repo: local; hooks:`)
 
@@ -83,7 +83,7 @@ For each file below, surface a concrete instruction shaped like:
 
 ### 4. Mirror every hook in CI
 
-**Rule (load-bearing):** every pre-commit hook the user installs gets a matching GitHub Actions job, so `--no-verify` bypass surfaces in PR checks. Source pattern: `minibinder/.github/workflows/test.yml` lines 365-379 (xfail-age) + 337-363 (placeholder-citations).
+**Rule (load-bearing):** every pre-commit hook the user installs gets a matching GitHub Actions job, so `--no-verify` bypass surfaces in PR checks. Source pattern: `binder-design/.github/workflows/test.yml` lines 365-379 (xfail-age) + 337-363 (placeholder-citations).
 
 Emit `.github/workflows/discipline.yml` (or merge into existing `test.yml`):
 
@@ -135,7 +135,7 @@ jobs:
       - run: ruff check . && ruff format --check .
 ```
 
-For each opted-in extra tier (failure-modes-log, holdout-no-peek, schema-defaults), append the matching job — pattern in `minibinder/.github/workflows/test.yml` at lines 248-276 (failure-log-coverage), 401-427 (holdout-no-peek), 381-399 (schema-defaults).
+For each opted-in extra tier (failure-modes-log, holdout-no-peek, schema-defaults), append the matching job — pattern in `binder-design/.github/workflows/test.yml` at lines 248-276 (failure-log-coverage), 401-427 (holdout-no-peek), 381-399 (schema-defaults).
 
 ### 5. Install instructions to surface to the user
 
@@ -168,4 +168,4 @@ pre-commit run --all-files  # smoke-test the install
 - `~/.claude/commands/anti-fabrication.md` — citation-verification contract that the placeholder-citations hook enforces statically
 - `~/.claude/commands/scaffold-agent.md` — sibling skill for scaffolding subagent specs
 - `~/.claude/commands/critique.md` — adversarial-review macro that the suite-green gate makes survivable
-- Source repo: `/Volumes/pool-mann-<operator>/code_bin/minibinder/` — canonical pattern, all files referenced above are verified to exist there as of 2026-05
+- Source repo: `/Volumes/pool-mann-<operator>/code_bin/binder-design/` — canonical pattern, all files referenced above are verified to exist there as of 2026-05

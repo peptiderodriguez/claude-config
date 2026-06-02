@@ -33,7 +33,7 @@ The operator **outsources harsh-critic role to subagents** ("launch 3 adversaria
 ## Evolution (May 13–24 window)
 
 - **Mid-May (stakes-anchored grant context, high stakes, novel domain):** anxious-perfectionist register. Lots of "make sure", "is this going to work?", "explicit todos".
-- **Late-May (E2E review, minibinder, senescence):** delegational-coordinator register. *"use agents where able"* without justification. Asks Claude's opinion of the agents' work, not the work itself.
+- **Late-May (E2E review, binder-design, aging-study):** delegational-coordinator register. *"use agents where able"* without justification. Asks Claude's opinion of the agents' work, not the work itself.
 
 **Reading:** trajectory is anxious-supervisor → trusting-but-auditing. The CLAUDE.md scar tissue + `/analyze` agent specs are the **safety scaffolding that lets the operator relax delegation**. The more they encode, the less they watch.
 

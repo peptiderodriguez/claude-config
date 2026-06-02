@@ -1,6 +1,6 @@
 # How you actually work with Claude — meta-analysis v2
 
-_2026-05-24, second pass. v1 critique inline at end. Built from 6 pool CLAUDE.md files, 5 `/analyze` commands, ~5,270 user messages from one project + recency-biased re-sweep of May 15–20 (minibinder, `<institution>`, late-grant)._
+_2026-05-24, second pass. v1 critique inline at end. Built from 6 pool CLAUDE.md files, 5 `/analyze` commands, ~5,270 user messages from one project + recency-biased re-sweep of May 15–20 (binder-design, `<institution>`, late-grant)._
 
 > **Historical snapshot** — counts and line-number references reflect 2026-05-24, not the current repo state. Kept as provenance; do not "freshen" the numbers (it would break the audit trail).
 
@@ -12,7 +12,7 @@ The three artifacts:
 
 | Artifact | What it pretends to be | What it actually is |
 |---|---|---|
-| `CLAUDE.md` (per repo, 70–320 lines) | "Notes for Claude" | **Prosthetic memory.** Past incidents (with hour-counts: "wiped a 7-hour libgen", "ship-blocker on ≥5GB parquets") encoded as durable rules so they survive session compaction, context loss, and you forgetting. |
+| `CLAUDE.md` (per repo, 70–320 lines) | "Notes for Claude" | **Prosthetic memory.** Past incidents (with hour-counts: "wiped a 7-hour library-gen", "ship-blocker on ≥5GB parquets") encoded as durable rules so they survive session compaction, context loss, and you forgetting. |
 | `.claude/commands/analyze.md` (4 repos, up to 1,344 lines each) | "Slash command" | **An internalized agent.** Each one specs a full multi-phase workflow (greet → AskUserQuestion experience → Planner/Guardrail/Collaborator triad → phased walkthrough → adaptive feedback). You've converged on the same skeleton across 4 unrelated projects. That skeleton is a higher-order skill that isn't templated anywhere. |
 | Daily note (`Obsidian/<day>.md`) | "Daily journal" | **Lab notebook for a fleet of Claude instances.** The `CLAUDE SESSIONS: name → path` block coordinates 3–5 concurrent sessions across different repos. The "what's NOT in this plan" carve-outs are boundary markers for *other sessions'* work. |
 
@@ -20,7 +20,7 @@ Once you see it this way, the open gaps become obvious:
 - The **fleet has no cross-session view.** Each session is blind to the others. Daily note is the only coordination layer.
 - The **cluster is a black box** the platform talks to but can't see into. ("how are the pending jobs doing?" — 3 times in one May-17 session.)
 - **Subagents inherit the parent's narrow sandbox** but aren't documented as doing so, so today's two subagents both failed silently before you noticed.
-- The **`/analyze` skeleton isn't a template** — every new project starts from scratch (or copy-paste from xldvp_seg).
+- The **`/analyze` skeleton isn't a template** — every new project starts from scratch (or copy-paste from imaging-seg).
 
 That's the v2 thesis. Below: evidence + one concrete skill, designed.
 
@@ -31,9 +31,9 @@ That's the v2 thesis. Below: evidence + one concrete skill, designed.
 ### CLAUDE.md = prosthetic memory
 
 The clue is the verbatim references to specific past incidents:
-- `xldvp_seg`: *"`make format` before committing. Black version skew has caused repeated CI failures."*
-- `ehr_proteomics_analysis`: *"Wave 2: `aq_runner_array` orchestrator default `mem` is `64G` (was 16G) — the 16G default was a ship-blocker for ≥5GB parquets."*
-- Same file: *"`scancel -u $USER` is destructive across cubes. Hard lesson from the bm_mk_e2e_pipeline_test debug session that wiped a 7-hour libgen."*
+- `imaging-seg`: *"`make format` before committing. Black version skew has caused repeated CI failures."*
+- `clinical-omics`: *"Wave 2: `quant-runner_array` orchestrator default `mem` is `64G` (was 16G) — the 16G default was a ship-blocker for ≥5GB parquets."*
+- Same file: *"`scancel -u $USER` is destructive across cubes. Hard lesson from the bm_mk_e2e_pipeline_test debug session that wiped a 7-hour library-gen."*
 - Same file: *"We've burned this lab once already with a fabricated 27-protein 'Thienel panel' that had 7+ proteins not in the paper."*
 
 These aren't documentation — docs explain how something works. These are **bug-reports-as-rules**, written in second-person to whoever (Claude or you) shows up in the next session. The hour-counts are receipts. You write them precisely *because* you know the original context will be gone after compaction.
@@ -54,13 +54,13 @@ The four `/analyze.md` files share a skeleton you converged on without writing d
 7. Analysis catalog (don't list unless asked)
 ```
 
-This is no longer a "command" — it's an agent spec. The xldvp_seg one is 1,344 lines: longer than most Anthropic agent docs. You're describing the agent you wish you had, in enough detail that any Claude session can re-instantiate it on `/analyze`.
+This is no longer a "command" — it's an agent spec. The imaging-seg one is 1,344 lines: longer than most Anthropic agent docs. You're describing the agent you wish you had, in enough detail that any Claude session can re-instantiate it on `/analyze`.
 
 **Implication:** the skeleton itself is your highest-leverage unbuilt skill. A `/scaffold-analyze <project-name>` that generates a stub `analyze.md` following the convention would save you the next 1,000-line write.
 
 ### Daily note = fleet lab-notebook
 
-The opening `CLAUDE SESSIONS:` block is operating a small lab. On Saturday May 23 you had 5 sessions, three of them rooted in the *same* repo (`alphaquant`) doing different things (`csf3`, `rlink`, `marcpos2`). The repo is the workshop; the session is the task.
+The opening `CLAUDE SESSIONS:` block is operating a small lab. On Saturday May 23 you had 5 sessions, three of them rooted in the *same* repo (`proteomics-quant`) doing different things (`session-b`, `rlink`, `session-a`). The repo is the workshop; the session is the task.
 
 The post-session jottings ("- yeah you'll have to test different surface definition options. / - totally agree with kras rediscovery") aren't notes-to-self. They're **decisions ready to be pasted into whichever session asks next.**
 
@@ -70,7 +70,7 @@ The post-session jottings ("- yeah you'll have to test different surface definit
 
 ## What's evolving (recency-biased: May 15–24)
 
-Comparing the May 13–17 grant work to the May 18–24 minibinder/senescence/`<institution>` work:
+Comparing the May 13–17 grant work to the May 18–24 binder-design/aging-study/`<institution>` work:
 
 - **Adversarial framing is now first-class.** May 17: *"launch 3 adverserial agents to critique and give chances of funding."* Verbatim three weeks earlier you were still asking for "a critical review." Personification of skeptics has stuck.
 - **Agent cap is fluid.** Mostly "up to 3", but May 18 hit "use 4 agents where able." You scale to problem size, not to a hard rule. Don't lock the cap.
@@ -87,9 +87,9 @@ Comparing the May 13–17 grant work to the May 18–24 minibinder/senescence/`<
 
 ### #1 by frequency: cluster opacity
 - *"so how are all the jobs that we had launched?"* (May 17, asked 3 distinct times that day)
-- *"hows UKB-PPP pull?"* (May 17)
+- *"hows clinical-cohort pull?"* (May 17)
 - "cluster" 225× / "stale" 53× / "slurm" 24× / "login node" 3× in one transcript
-- Already solved once locally: `perturb_phos traffic` in minibinder. Not hoisted.
+- Already solved once locally: `design-cli traffic` in binder-design. Not hoisted.
 
 ### #2: violated standing rules
 Explicit re-corrections in transcript:
@@ -106,7 +106,7 @@ Both of today's subagents got denied access to `/Volumes/pool-mann-<operator>/` 
 *"ok where are we then?"* / *"and is the to do list totally up to date?"* / *"but like obviously you should be starting with the new list of proteins now"* — Claude lost the thread. Symptom of compaction or long-running tangled state.
 
 ### #5: domain-fact corrections (low frequency, high impact)
-- *"af2ig also runs on KOs"*
+- *"structure-tool also runs on KOs"*
 - *"this is not correct... for interview-only: is there a column..."*
 - *"no wer'e doing prm"*
 These don't bunch — they're scattered. No structural fix; just stay humble on domain facts.
@@ -121,7 +121,7 @@ Of the candidates, `/critique` is the highest-leverage / lowest-cost. I've draft
 
 Copy it to `<project>/.claude/commands/critique.md` for project-scoped, or to `~/.claude/commands/critique.md` for global. The spec uses your verbatim review checklist, follows your `/analyze` skeleton, dispatches 3 parallel adversarial subagents (configurable), and synthesizes — does not dump.
 
-The next-best second skill would be `/cluster-traffic`. That one needs to wrap your specific cluster's `squeue/sinfo`, so it's a per-project script — not a markdown drop-in. I'd want your input on whether to put it in `xldvp_seg/scripts/`, `minibinder/scripts/` (where it half-exists), or a new shared dir.
+The next-best second skill would be `/cluster-traffic`. That one needs to wrap your specific cluster's `squeue/sinfo`, so it's a per-project script — not a markdown drop-in. I'd want your input on whether to put it in `imaging-seg/scripts/`, `binder-design/scripts/` (where it half-exists), or a new shared dir.
 
 ---
 
@@ -162,7 +162,7 @@ You don't seem to over-identify with what you build, either. You'll say *"i'm qu
 
 A psychological trajectory is visible:
 - **Mid-May (grant prep, high stakes, novel domain):** anxious-perfectionist register. *"is this going to work?"* / *"how can you address all the issues to make this a robust fundable reviewer-proof application"* / *"make sure to add explicity to dos"*. Lots of "make sure" and "explicit". Externalized self-criticism via 3 adversarial reviewers.
-- **Late-May (E2E review, minibinder, senescence):** delegational-coordinator register. *"use agents where able"* (no longer specifying *why* — the workflow is internalized). *"do you agree with the review?"* (now treating Claude as the second opinion, not the work-doer). Longer prompts with more scope; less micromanagement.
+- **Late-May (E2E review, binder-design, aging-study):** delegational-coordinator register. *"use agents where able"* (no longer specifying *why* — the workflow is internalized). *"do you agree with the review?"* (now treating Claude as the second opinion, not the work-doer). Longer prompts with more scope; less micromanagement.
 
 **Reading:** you've moved from *anxiously supervising* to *trusting-but-auditing*. The CLAUDE.md scar tissue and the `/analyze` agent specs are the **safety scaffolding that lets you relax delegation**. The more you encode, the less you have to watch.
 
@@ -181,9 +181,9 @@ A psychological trajectory is visible:
 I'm being honest about what I couldn't see:
 
 1. **This psychological section is interpretation, not measurement.** I'm pattern-matching on prompt text; you have access to your own internal state that I don't. If something here is wrong, it's wrong with confidence.
-2. **Transcripts are biased toward Mac-rooted sessions.** Sessions started on the cluster (`/fs/pool/...`) write transcripts on the cluster, not your Mac. So all the `senescence`, `marcpos2`, etc. sessions you list in the daily note may have logs I never saw.
+2. **Transcripts are biased toward Mac-rooted sessions.** Sessions started on the cluster (`/fs/pool/...`) write transcripts on the cluster, not your Mac. So all the `aging-study`, `session-a`, etc. sessions you list in the daily note may have logs I never saw.
 2. **The 68MB transcript from one project dominated by volume.** Even after recency-sweeping, the sample is overweighted. If the May 20–24 sessions had distinct patterns, I underdetected them.
-3. **I didn't open `xldvp_seg/.claude/agents/*.md`** (annotation-trainer, detection-dev, lmd-export, pipeline-runner). Those are custom subagents that may carry workflow patterns I missed.
+3. **I didn't open `imaging-seg/.claude/agents/*.md`** (annotation-trainer, detection-dev, lmd-export, pipeline-runner). Those are custom subagents that may carry workflow patterns I missed.
 4. **I'm inferring from CLAUDE.md content** what your *current* practice is. CLAUDE.md changes lag behavior — rules persist after the problem stops mattering.
 5. **No interview.** I didn't ask you what you find painful. I extracted from transcripts, which under-weights tacit friction (the things annoying enough to feel but not annoying enough to type).
 
@@ -202,5 +202,5 @@ v1 didn't say what it couldn't see. v2 does.
 If you want a v3 pass, it would be on the things v2 still doesn't have:
 - Actual interview of you (the tacit-friction gap)
 - Read the cluster-side transcripts (the unsampled-fleet gap)
-- Look at `xldvp_seg/.claude/agents/` (the custom-subagent gap)
+- Look at `imaging-seg/.claude/agents/` (the custom-subagent gap)
 - Mine for *successes* you took for granted, not just frictions (the survivorship-bias gap)

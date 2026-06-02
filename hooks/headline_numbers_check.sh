@@ -20,7 +20,7 @@
 #      but surfaces the failure loudly so the next turn can revert or fix).
 #
 # Replaces the previously-fake reference in `~/.claude/commands/grant-work-mode.md`.
-# Designed for rlink2026, but project-agnostic by construction — any project with a
+# Designed for grant-repo, but project-agnostic by construction — any project with a
 # locked headline-numbers contract benefits.
 #
 # To disable: comment out the matcher in `~/.claude/settings.json` or edit this script.

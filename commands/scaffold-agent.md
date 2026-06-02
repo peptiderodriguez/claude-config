@@ -1,4 +1,4 @@
-Bootstrap a new Claude Code agent spec with the conventions the operator has converged on across `dfg-reviewer`, `frame-auditor`, `dissent-auditor`, and the `xldvp_seg/.claude/agents/` set (annotation-trainer, detection-dev, lmd-export, pipeline-runner). Writes a stub to `~/.claude/agents/<name>.md` (global) or `<project>/.claude/agents/<name>.md` (project-scoped).
+Bootstrap a new Claude Code agent spec with the conventions the operator has converged on across `dfg-reviewer`, `frame-auditor`, `dissent-auditor`, and the `imaging-seg/.claude/agents/` set (annotation-trainer, detection-dev, lmd-export, pipeline-runner). Writes a stub to `~/.claude/agents/<name>.md` (global) or `<project>/.claude/agents/<name>.md` (project-scoped).
 
 TRIGGER when user asks: "create a new agent", "draft an agent for X", "scaffold an agent", "make a subagent that …", "add an agent for the Y workflow". Also TRIGGER when user is hand-writing a long agent spec and would benefit from the template (offer once: "want me to scaffold this with the canonical sections?").
 

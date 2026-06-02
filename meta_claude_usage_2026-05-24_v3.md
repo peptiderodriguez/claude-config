@@ -1,6 +1,6 @@
 # How you actually work with Claude — meta-analysis v3
 
-_2026-05-24, third pass. Builds on v2 (`meta_claude_usage_2026-05-24.md`). v3 closes three of v2's named gaps + responds to the May 24 friction interview + catalogs hoist-able patterns from `xldvp_seg/.claude/agents/`._
+_2026-05-24, third pass. Builds on v2 (`meta_claude_usage_2026-05-24.md`). v3 closes three of v2's named gaps + responds to the May 24 friction interview + catalogs hoist-able patterns from `imaging-seg/.claude/agents/`._
 
 > **Historical snapshot** — counts and line-number references reflect 2026-05-24, not the current repo state. Read v2 first; v3 corrects and extends it. Kept as provenance; do not "freshen" the numbers.
 
@@ -22,7 +22,7 @@ v2's specific ask was a 4-question read on "what bites you weekly *right now*." 
 |---|---|---|
 | Top friction this week | **Cross-session coordination** | The daily-note coordination layer is the bottleneck — `/sessions` is the right thing to harden, not cluster-opacity or stale-state (which v2 over-weighted) |
 | Cluster-side transcripts worth analyzing? | "Honestly unsure" | Defer — not a v3 priority |
-| xldvp_seg custom agents worth hoisting? | "Yes — read them, hoist patterns" | Done in this doc (§ "xldvp_seg pattern catalog") |
+| imaging-seg custom agents worth hoisting? | "Yes — read them, hoist patterns" | Done in this doc (§ "imaging-seg pattern catalog") |
 | What's working surprisingly well? | "dunno" | Survivorship-bias gap stays open — v4 task |
 
 **Reframe:** v2 ranked cluster-opacity as friction #1 (by frequency). v3 corrects: by *weekly impact*, cross-session coordination has taken its place. Cluster-opacity has been partially mitigated by `cluster-traffic.md` + `squeue_inject.sh` hook; cross-session coordination has no automated tooling yet beyond the daily-note skill.
@@ -31,7 +31,7 @@ v2's specific ask was a 4-question read on "what bites you weekly *right now*." 
 
 Not analyzed. Re-prompt if friction here re-surfaces.
 
-### Gap 3 — xldvp_seg custom agents (closed — see § below)
+### Gap 3 — imaging-seg custom agents (closed — see § below)
 
 ### Gap 4 — Mine for successes (still open)
 
@@ -43,19 +43,19 @@ Same caveat applies to v3. Lower confidence than v2 in the success-mining sectio
 
 ---
 
-## xldvp_seg pattern catalog (the new section)
+## imaging-seg pattern catalog (the new section)
 
-4 agent specs at `/Volumes/pool-mann-<operator>/code_bin/xldvp_seg/.claude/agents/`, 662 lines total: `annotation-trainer` (166), `detection-dev` (135), `lmd-export` (192), `pipeline-runner` (169).
+4 agent specs at `/Volumes/pool-mann-<operator>/code_bin/imaging-seg/.claude/agents/`, 662 lines total: `annotation-trainer` (166), `detection-dev` (135), `lmd-export` (192), `pipeline-runner` (169).
 
 ### Patterns worth hoisting platform-wide
 
-**N=1 caveat (load-bearing).** Every pattern below comes from a single project's agent set. "Worth hoisting" here means "looks generic enough to be worth *evaluating* against 2+ other projects before promoting" — not "validated and ready to promote." v2's gap #4 (survivorship bias) explicitly warned against single-project pattern extraction; v3 was about to reproduce that mistake. Before any pattern moves to global CLAUDE.md or `_shared/`, grep `/Volumes/pool-mann-<operator>/code_bin/*/.claude/agents/` and `*/scripts/` for convergent independent invention. **xldvp_seg's agent set is N=1 evidence; "hoist" decisions require N≥2.**
+**N=1 caveat (load-bearing).** Every pattern below comes from a single project's agent set. "Worth hoisting" here means "looks generic enough to be worth *evaluating* against 2+ other projects before promoting" — not "validated and ready to promote." v2's gap #4 (survivorship bias) explicitly warned against single-project pattern extraction; v3 was about to reproduce that mistake. Before any pattern moves to global CLAUDE.md or `_shared/`, grep `/Volumes/pool-mann-<operator>/code_bin/*/.claude/agents/` and `*/scripts/` for convergent independent invention. **imaging-seg's agent set is N=1 evidence; "hoist" decisions require N≥2.**
 
 | Pattern | Where seen | Why hoist | Hoist as |
 |---|---|---|---|
 | **Architecture-tree prologue** | All 4 agents start with a code-tree diagram showing the modules the agent works on | Sets shared mental model; future-Claude doesn't have to re-grep on every invocation | Convention to add to `agents/*.md` template — could be a `/scaffold-agent` skill |
 | **YAML config + bash launcher** (`scripts/run_pipeline.sh configs/<name>.yaml`) | pipeline-runner | Decouples *what to run* from *how to launch* — reusable for any SLURM-pipeline project | Per-project bash script, plus a `/scaffold-pipeline-yaml` global skill |
-| **`system_info.py --json` pre-flight** | pipeline-runner | Auto-recommends partition/GPU/mem based on cluster busyness — generalizable beyond xldvp_seg | Promote to `~/code_bin/_shared/scripts/system_info.py` or global skill |
+| **`system_info.py --json` pre-flight** | pipeline-runner | Auto-recommends partition/GPU/mem based on cluster busyness — generalizable beyond imaging-seg | Promote to `~/code_bin/_shared/scripts/system_info.py` or global skill |
 | **"Always run `czi_info.py` first"** pre-flight check | pipeline-runner, annotation-trainer | The *pattern* (inspect data before configuring) is universal even though czi_info is domain-specific | Convention: every pipeline-runner-class agent should have a "Step 0: inspect inputs" line |
 | **Failure-pattern table** (Pattern \| Cause \| Fix) | pipeline-runner § "Diagnosing Failures" | Structured stderr→fix mapping; reusable for any project with known crash modes | Convention; encourage in every project-specific runner agent |
 | **`resume_dir:` YAML field** for crash-resume | pipeline-runner | Sentinel-friendly, stale-state-aware resume — matches CLAUDE.md anti-stale principle | Pattern to propagate to every long-running pipeline |
@@ -74,11 +74,11 @@ Same caveat applies to v3. Lower confidence than v2 in the success-mining sectio
 
 ### Specific recommendations from the catalog
 
-**1. ✅ DONE — Update CLAUDE.md house-style with "Defaults Are Automatic" counterweight.** Shipped this session at `~/.claude/CLAUDE.md:10`. Caveat: applied on N=1 evidence (only xldvp_seg's lmd-export proves the exception). If the pattern doesn't recur in 1-2 other projects, reconsider whether to revert.
+**1. ✅ DONE — Update CLAUDE.md house-style with "Defaults Are Automatic" counterweight.** Shipped this session at `~/.claude/CLAUDE.md:10`. Caveat: applied on N=1 evidence (only imaging-seg's lmd-export proves the exception). If the pattern doesn't recur in 1-2 other projects, reconsider whether to revert.
 
 **2. ✅ DONE — Create `/scaffold-agent` skill.** Shipped this session at `~/.claude/commands/scaffold-agent.md`. Generates stubs with frontmatter format matching dfg-reviewer, TRIGGER/SKIP block in description, architecture-tree prologue, output-format + tone + hard-rules sections.
 
-**3. DEFER — Promote `system_info.py` to a shared location.** `/Volumes/pool-mann-<operator>/code_bin/_shared/` does not exist yet — would require creating the directory and migrating xldvp_seg's reference. Hold until at least one *other* project has independently re-invented `system_info.py`-style functionality (per N=1 caveat above).
+**3. DEFER — Promote `system_info.py` to a shared location.** `/Volumes/pool-mann-<operator>/code_bin/_shared/` does not exist yet — would require creating the directory and migrating imaging-seg's reference. Hold until at least one *other* project has independently re-invented `system_info.py`-style functionality (per N=1 caveat above).
 
 ---
 
@@ -103,8 +103,8 @@ v2 surfaced these gaps in `~/.claude/`. Status today:
 
 Read `~/.claude/commands/sessions.md` + 3 recent daily notes:
 
-- **Sat May 23**: 5 sessions logged (grant, csf3, rlink, minibinder2, marcpos2) — correct format, tab-indented
-- **Sun May 24**: 3 sessions logged (grant, minibinder2, senescence) + `## Session digests` section auto-populated by `session_digest.sh` hook — both working
+- **Sat May 23**: 5 sessions logged (grant, session-b, rlink, binder-design2, session-a) — correct format, tab-indented
+- **Sun May 24**: 3 sessions logged (grant, binder-design2, aging-study) + `## Session digests` section auto-populated by `session_digest.sh` hook — both working
 - **Fri May 22**: No `CLAUDE SESSIONS:` block — that day was free-text + German practice; skill not invoked. Not a bug.
 
 **Verdict: WORKING.** One cosmetic drift: skill spec specifies 4-space indent for entries; actual files use tab. Functionally equivalent. Either align the spec to the existing format, or auto-normalize on insert.
@@ -153,7 +153,7 @@ Honest gaps, same v2-style:
 v3 was put through a 3-agent `/critique` (methodology / tests-docs / frame-skeptic). Key findings landed and were addressed in this revision:
 
 - **Staleness** — v3 originally listed `/scaffold-agent` and "Defaults Are Automatic" as deferred; both had already shipped earlier in the same session. v3 was written without re-greping `~/.claude/`. Fixed: those items moved to ✅ in the validation table; "What's next" rewritten against actual current state.
-- **N=1 hoist** — methodology + frame-skeptic both flagged the xldvp_seg pattern catalog as single-project evidence dressed up as platform-wide recommendation. Fixed: N=1 caveat added at top of the hoist table; "hoist" decisions now explicitly require N≥2.
+- **N=1 hoist** — methodology + frame-skeptic both flagged the imaging-seg pattern catalog as single-project evidence dressed up as platform-wide recommendation. Fixed: N=1 caveat added at top of the hoist table; "hoist" decisions now explicitly require N≥2.
 - **Interview source uncited** — methodology agent inferred the interview was fabricated because it isn't in the daily note. Fixed: source explicitly cited (`AskUserQuestion` in the conversation transcript). A future reader without conversation access still can't verify the answers — that's a real limit of any meta-doc that quotes a live conversation.
 - **Off-by-one citation** — v3 cited the meta-rules at CLAUDE.md:49–50; verified actual locations are :50 (stakes-flip-side) and :51 (delegation-outpaces-scaffolding). Fixed.
 - **Unfalsifiability lens** — frame-skeptic flagged that v3 absorbs both confirmations and disconfirmations as evidence for the R&D-platform reframe. Not fully fixed; documented in § "New scar" with the warning that "lens fires on itself" is *not* evidence of generative prediction. A real test would be: *what prediction does the R&D-platform lens make that, if it failed, would cause the lens to be dropped (not just refined)?* — that's an open question for v4 or whenever v4 happens.

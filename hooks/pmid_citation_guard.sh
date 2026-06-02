@@ -2,8 +2,8 @@
 # PostToolUse hook: structured PMID citation guard. After any Write/Edit on
 # a markdown / tex / yaml file, scan for PMID tokens and verify each against
 # a STRUCTURED citation manifest (DataFrame-shaped CSV) joined to a local
-# PubMed cache. Modeled on minibinder's data/citations.csv ⋈ pubmed_cache
-# pattern — see /Volumes/pool-mann-<operator>/code_bin/minibinder/src/perturb_phos/
+# PubMed cache. Modeled on binder-design's data/citations.csv ⋈ pubmed_cache
+# pattern — see /Volumes/pool-mann-<operator>/code_bin/binder-design/src/design-cli/
 # citation_table.py for the rationale ("stop parsing — citation identity is
 # STRUCTURED DATA, not text proximity"). Surfaces additionalContext for
 # violations; does NOT block (the file is already written). Set
@@ -67,7 +67,7 @@ pmids=$(grep -oE '(PMID:?\s*[0-9]{6,9}|pmid\.ncbi\.nlm\.nih\.gov/[0-9]{6,9})' "$
 # silently would defeat the point. Surface the seed-cache handoff.
 if [ -z "${csv_path:-}" ] && [ -z "${cache_dir:-}" ]; then
   n=$(printf '%s\n' "$pmids" | wc -l | tr -d ' ')
-  msg=$'PMID guard: '"$n"$' PMID(s) found in '"$fp"$' but NO structured citation manifest is reachable.\n\nFile a citations.csv next to the file (DataFrame columns: pmid,first_author,year,journal,fixture,used_in,status) OR initialize the global manifest:\n  mkdir -p ~/.claude/state ~/.claude/cache/pubmed\n  echo "pmid,first_author,year,journal,fixture,used_in,status" > ~/.claude/state/citations.csv\n  python ~/.claude/scripts/seed_pubmed_cache.py '"$(printf '%s ' $pmids)"$'\n\nRationale: minibinder src/perturb_phos/citation_table.py — citation identity is STRUCTURED DATA, not prose proximity.'
+  msg=$'PMID guard: '"$n"$' PMID(s) found in '"$fp"$' but NO structured citation manifest is reachable.\n\nFile a citations.csv next to the file (DataFrame columns: pmid,first_author,year,journal,fixture,used_in,status) OR initialize the global manifest:\n  mkdir -p ~/.claude/state ~/.claude/cache/pubmed\n  echo "pmid,first_author,year,journal,fixture,used_in,status" > ~/.claude/state/citations.csv\n  python ~/.claude/scripts/seed_pubmed_cache.py '"$(printf '%s ' $pmids)"$'\n\nRationale: binder-design src/design-cli/citation_table.py — citation identity is STRUCTURED DATA, not prose proximity.'
   jq -nc --arg msg "$msg" '{hookSpecificOutput:{hookEventName:"PostToolUse",additionalContext:$msg}}'
   exit 0
 fi
@@ -82,7 +82,7 @@ else
 fi
 
 # Inline Python join — stdlib only (no pandas in the hook venv). Mirrors
-# audit_citations() from minibinder citation_table.py: join claim ⋈ cache
+# audit_citations() from binder-design citation_table.py: join claim ⋈ cache
 # on pmid; flag uncached-live and (author|year|journal) mismatches.
 violations=$(CSV="${csv_path:-}" CACHE="${cache_dir:-}" SRC="$src_id" PMIDS="$pmids" python3 - <<'PY' 2>/dev/null
 import csv, json, os, re, sys, unicodedata

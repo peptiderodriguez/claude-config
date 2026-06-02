@@ -36,5 +36,5 @@ Keep under 12 lines. The point is fast visibility, not a full report.
 ## Notes
 
 - This skill exists because *"how are the jobs?"* recurred 3+ distinct times in a single May-17 session — cluster opacity is the operator's #1 friction. Surfacing this proactively (per global CLAUDE.md guidance) reduces it.
-- The `minibinder` repo's `perturb_phos traffic` CLI subcommand is the local origin of this pattern; this skill hoists it to global so it works in any project on the cluster.
+- The `binder-design` repo's `design-cli traffic` CLI subcommand is the local origin of this pattern; this skill hoists it to global so it works in any project on the cluster.
 - For long pipelines, consider running this every few turns even unprompted (when the user's prior turn launched jobs) — but don't spam; ≥4-turn cadence unless something changes.

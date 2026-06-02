@@ -21,13 +21,13 @@ Notable repos with their own `CLAUDE.md`:
 
 | Repo | Purpose | `/analyze` | Custom agents |
 |---|---|---|---|
-| `xldvp_seg` | Spatial segmentation, DVP, LMD export | yes (1344-line) | 4 (annotation-trainer, detection-dev, lmd-export, pipeline-runner) |
-| `alphaquant` | Tree-based proteomics quant | — | — |
-| `minibinder` | De novo binder design (RFdiffusion+ProteinMPNN+BindCraft+Boltz) | yes | — |
-| `ehr_proteomics_analysis` | DIA proteomics pipeline | yes + `/clinical_eda` | — |
-| `ehr_r046` | EHR-linked proteomics | yes | — |
-| `rlink2026` | psychiatric biomarker grant project | grant-specific subdir CLAUDE.md | — |
-| `aq_runner` | Batch wrapper around alphaquant | — | — |
+| `imaging-seg` | Spatial segmentation, DVP, LMD export | yes (1344-line) | 4 (annotation-trainer, detection-dev, lmd-export, pipeline-runner) |
+| `proteomics-quant` | Tree-based proteomics quant | — | — |
+| `binder-design` | De novo binder design (RFdiffusion+ProteinMPNN+BindCraft+Boltz) | yes | — |
+| `clinical-omics` | DIA proteomics pipeline | yes + `/clinical_eda` | — |
+| `clinical-omics-2` | EHR-linked proteomics | yes | — |
+| `grant-repo` | psychiatric biomarker grant project | grant-specific subdir CLAUDE.md | — |
+| `quant-runner` | Batch wrapper around proteomics-quant | — | — |
 
 Per-dataset analyses live under `/Volumes/pool-mann-<operator>/DIA_output/<dataset>/scripts/`, NOT inside packages. Shared scripts in `/Volumes/pool-mann-<operator>/DIA_output/_shared/`.
 
@@ -35,7 +35,7 @@ Per-dataset analyses live under `/Volumes/pool-mann-<operator>/DIA_output/<datas
 
 | Partition | Hardware | Use |
 |---|---|---|
-| `p.hpcl93` | 19 nodes, 256 CPU / 760G / 4× L40S | Heavy GPU, DIA-NN libgen, segmentation detection |
+| `p.hpcl93` | 19 nodes, 256 CPU / 760G / 4× L40S | Heavy GPU, DIA-NN library-gen, segmentation detection |
 | `p.hpcl8` | 55 nodes, 24 CPU / 380G / 2× RTX 5000 | CPU work, msconvert/Singularity, interactive dev |
 | `p.hpcl92` | CPU partition | CPU-only batch |
 
@@ -43,7 +43,7 @@ Per-dataset analyses live under `/Volumes/pool-mann-<operator>/DIA_output/<datas
 
 ## Multi-session workflow
 
-They runs **3–5 concurrent Claude Code sessions** in parallel, one per task, often against different repos. Session names are short tmux-style labels (`grant`, `csf3`, `rlink`, `minibinder2`, `marcpos2`, `senescence`). Same repo can host multiple task-scoped sessions — e.g. `alphaquant` hosted `csf3` + `rlink` + `marcpos2` on May 23.
+They runs **3–5 concurrent Claude Code sessions** in parallel, one per task, often against different repos. Session names are short tmux-style labels (`grant`, `session-b`, `rlink`, `binder-design2`, `session-a`, `aging-study`). Same repo can host multiple task-scoped sessions — e.g. `proteomics-quant` hosted `session-b` + `rlink` + `session-a` on May 23.
 
 The daily note at `$HOME/data/code/obsidian_base/<DayOfWeek MMM DD YYYY>.md` opens with:
 ```
@@ -73,23 +73,23 @@ Projects whose `CLAUDE.md` has been updated with the global-pointer block (catal
 
 | Project | Path | Status | Notes |
 |---|---|---|---|
-| minibinder | `/Volumes/pool-mann-<operator>/code_bin/minibinder/CLAUDE.md` | **done 2026-05-24** | Emphasizes pre-flight (`perturb_phos doctor`), Frame-skeptic on target selection, cluster visibility (this project is the local origin of /cluster-traffic) |
-| rlink2026 | `/Volumes/pool-mann-<operator>/code_bin/rlink2026/CLAUDE.md` | **done 2026-05-24** | Emphasizes PDF-grep panel verification, stakes flip-side (grant-funding optimization), `dfg-reviewer` (built from this project), dual-roots subagent sandbox |
-| xldvp_seg | `/Volumes/pool-mann-<operator>/code_bin/xldvp_seg/CLAUDE.md` | not yet | Has its own substantive CLAUDE.md (318 lines) + custom agents; adding pointer block would be additive |
-| alphaquant | `/Volumes/pool-mann-<operator>/code_bin/alphaquant/CLAUDE.md` | not yet | Has 69-line CLAUDE.md from prior |
-| ehr_proteomics_analysis | `/Volumes/pool-mann-<operator>/code_bin/ehr_proteomics_analysis/CLAUDE.md` | not yet | Has 112-line CLAUDE.md from prior |
-| ehr_r046 | `/Volumes/pool-mann-<operator>/code_bin/ehr_r046/CLAUDE.md` | not yet | Has 120-line CLAUDE.md from prior |
-| `<collab>_collab` / `<collab>_phase2` | `/Volumes/pool-mann-<operator>/code_bin/rlink2026/<collab>_*/CLAUDE.md` | not yet | Sub-project CLAUDE.md files under rlink2026 |
+| binder-design | `/Volumes/pool-mann-<operator>/code_bin/binder-design/CLAUDE.md` | **done 2026-05-24** | Emphasizes pre-flight (`design-cli doctor`), Frame-skeptic on target selection, cluster visibility (this project is the local origin of /cluster-traffic) |
+| grant-repo | `/Volumes/pool-mann-<operator>/code_bin/grant-repo/CLAUDE.md` | **done 2026-05-24** | Emphasizes PDF-grep panel verification, stakes flip-side (grant-funding optimization), `dfg-reviewer` (built from this project), dual-roots subagent sandbox |
+| imaging-seg | `/Volumes/pool-mann-<operator>/code_bin/imaging-seg/CLAUDE.md` | not yet | Has its own substantive CLAUDE.md (318 lines) + custom agents; adding pointer block would be additive |
+| proteomics-quant | `/Volumes/pool-mann-<operator>/code_bin/proteomics-quant/CLAUDE.md` | not yet | Has 69-line CLAUDE.md from prior |
+| clinical-omics | `/Volumes/pool-mann-<operator>/code_bin/clinical-omics/CLAUDE.md` | not yet | Has 112-line CLAUDE.md from prior |
+| clinical-omics-2 | `/Volumes/pool-mann-<operator>/code_bin/clinical-omics-2/CLAUDE.md` | not yet | Has 120-line CLAUDE.md from prior |
+| `<collab>_collab` / `<collab>_phase2` | `/Volumes/pool-mann-<operator>/code_bin/grant-repo/<collab>_*/CLAUDE.md` | not yet | Sub-project CLAUDE.md files under grant-repo |
 
 Add the pointer block to a project's CLAUDE.md only when actively working in that project — skip dormant ones. Pattern documented in `[[process-onboard-methodology]]` Phase 6.5.
 
 ## Open skill candidates (2026-05 snapshot)
 
 - **`/critique`** — drop-in skill drafted at `$HOME/data/code/obsidian_base/critique_skill_v1.md`. Copy to project `.claude/commands/` or global `~/.claude/commands/`.
-- **`/cluster-traffic`** — hoist `minibinder`'s `perturb_phos traffic` to a shared skill. Wraps `squeue`, `sinfo`, partition availability. Addresses #1 friction (cluster opacity). `xldvp_seg/scripts/system_info.py` does most of it already.
+- **`/cluster-traffic`** — hoist `binder-design`'s `design-cli traffic` to a shared skill. Wraps `squeue`, `sinfo`, partition availability. Addresses #1 friction (cluster opacity). `imaging-seg/scripts/system_info.py` does most of it already.
 - **`/sessions`** — auto-emit/maintain the daily-note `CLAUDE SESSIONS:` block on session start/stop. Removes manual book-keeping.
 - **`/scaffold-analyze <project>`** — generate a stub `analyze.md` following the convention they's converged on across 4 repos.
-- **Stale-state pre-commit hook** — flag `.aq_runner_done` / `--dependency` / `_complete.json` files older than latest input touch. "Stale" appears 53× in one transcript.
-- **`/verify-panel`** — global PDF-grep panel-verification skill, hoisted from `ehr_proteomics_analysis/clinical_eda.md` (see [[feedback-no-fabricated-panels]]).
+- **Stale-state pre-commit hook** — flag `.quant-runner_done` / `--dependency` / `_complete.json` files older than latest input touch. "Stale" appears 53× in one transcript.
+- **`/verify-panel`** — global PDF-grep panel-verification skill, hoisted from `clinical-omics/clinical_eda.md` (see [[feedback-no-fabricated-panels]]).
 
 Related: [[feedback-house-style]], [[feedback-slurm-discipline]], [[feedback-use-agents]], [[feedback-critique-loop]]

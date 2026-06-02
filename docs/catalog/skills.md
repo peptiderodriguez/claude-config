@@ -1,4 +1,4 @@
-# Skills (10)
+# Skills (11)
 
 Custom skills live in `commands/*.md` and **auto-fire** when a prompt matches the TRIGGER clause at the top of each file. You can also invoke any of them explicitly as `/<name>`.
 
@@ -17,6 +17,7 @@ Grouped by **portability** — if you're adapting this repo, tier 1 transfers to
 | `onboard` | Re-runs the meta-analysis methodology when friction patterns re-emerge | "analyze how I use you", "audit my Claude setup" |
 | `scaffold-agent` | Bootstraps a new subagent spec with the converged conventions | "scaffold a new agent" |
 | `scaffold-discipline` | Plans the drop-in anti-rot tier (rot-exceptions, xfail-age audit, placeholder-citation scanner, suite-green gate, CI mirroring) into a fresh repo | "set up anti-rot", "bootstrap pre-commit", "scaffold discipline" |
+| `scaffold-analyze` | Generates a project's `/analyze` command — an interactive pipeline UI that guides novice/pro users through the workflow; interviews you and writes `<project>/.claude/commands/analyze.md` from the convention (see [Writing an /analyze guide](../adapt/analyze-pattern.md)) | "scaffold an analyze command", "give my pipeline a Claude UI" |
 
 ## Tier 2 — Research-general (any scientist)
 

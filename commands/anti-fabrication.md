@@ -166,7 +166,7 @@ provenance:
 
 `~/.claude/hooks/pmid_citation_guard.sh` (PostToolUse on Edit/Write of `*.md|*.tex|*.yaml`) is the **mechanical complement** to this skill. The skill is model-judgment (when/how to handoff in prose); the hook is mechanical enforcement (PMIDs cannot escape into disk un-witnessed).
 
-**The hook implements the "stop parsing — citation identity is STRUCTURED DATA" lesson** from minibinder (`src/perturb_phos/citation_table.py`). Any PMID written to disk must have a row in the structured manifest `~/.claude/state/citations.csv` (DataFrame columns: `pmid, first_author, year, journal, fixture, used_in, status`) AND a matching cache record at `~/.claude/cache/pubmed/<PMID>.json`. The hook joins claim ⋈ cache on pmid and fails loud on mismatch / missing row / missing cache.
+**The hook implements the "stop parsing — citation identity is STRUCTURED DATA" lesson** from binder-design (`src/design-cli/citation_table.py`). Any PMID written to disk must have a row in the structured manifest `~/.claude/state/citations.csv` (DataFrame columns: `pmid, first_author, year, journal, fixture, used_in, status`) AND a matching cache record at `~/.claude/cache/pubmed/<PMID>.json`. The hook joins claim ⋈ cache on pmid and fails loud on mismatch / missing row / missing cache.
 
 **When the hook surfaces a violation, do NOT silently delete the PMID** — that just hides the gap. Choose one:
 - (a) Verify and add a row to the manifest (status=live) — earns the citation
@@ -175,7 +175,7 @@ provenance:
 
 The two layers compose: skill catches at generation-time (model judgment), hook catches at write-time (mechanical). Both load-bearing for the no-fabricated-citations contract.
 
-## Lessons baked in (origin scars from minibinder — the discipline generalizes)
+## Lessons baked in (origin scars from binder-design — the discipline generalizes)
 
 - HRAS task brief: 6/7 PMIDs were wrong (resolved to unrelated papers). The agent that audited caught and demoted; the fixture now has 1 verified good_patch (PMID:9219684 Scheffzek 1997) + 4 demoted candidates with actionable handoffs.
 - CXCR4 task brief: PDB 6WHA was claimed as CXCR4-Gαi; RCSB resolved it to HTR2A bound to 25-CN-NBOH (a serotonin receptor). The agent replaced with verified 8K3Z + 8U4O.

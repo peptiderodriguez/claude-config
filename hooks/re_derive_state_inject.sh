@@ -3,7 +3,7 @@
 # question, inject a reminder to RE-DERIVE state from disk (squeue, mtimes, sentinels)
 # rather than quoting from a session summary or prior message.
 #
-# Scar: minibinder/CLAUDE.md "incomplete state is NOT acceptable state — verify, don't tolerate"
+# Scar: binder-design/CLAUDE.md "incomplete state is NOT acceptable state — verify, don't tolerate"
 # + Tuesday May 26 daily-note red-team item: trusting stale summary numbers.
 #
 # To disable: comment out in ~/.claude/settings.json or edit this script.

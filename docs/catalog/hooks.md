@@ -10,7 +10,7 @@ Hooks live in `hooks/*.sh` and are wired to tool/session events in `settings.jso
 | `squeue_inject.sh` | UserPromptSubmit | Injects a `squeue` snapshot on cluster hosts (silent on Mac) |
 | `surprise_capture.sh` | UserPromptSubmit | Detects "huh / wait what / aha / TIL" — offers to capture as durable memory, once |
 | `re_derive_state_inject.sh` | UserPromptSubmit | On status/orientation phrasings, injects a "re-derive from disk, don't quote a stale summary" reminder |
-| **`scancel_guard.sh`** | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (wiped-libgen scar). Kill by explicit job-id list |
+| **`scancel_guard.sh`** | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (wiped-library-gen scar). Kill by explicit job-id list |
 | `pre_sbatch_guard.sh` | PreToolUse (Bash) | Injects scar-anchored pre-flight; **ASKS** on portfolio-scale launches (≥2 sbatch + no env-source) |
 | **`tmp_write_guard.sh`** | PreToolUse (Bash/Write/Edit/…) | **DENIES** writes to `/tmp/*` (highest-scar rule — non-recoverable) |
 | `subagent_sandbox_preflight.sh` | PreToolUse (Task) | Warns when a subagent briefing references paths outside this cwd's `additionalDirectories` |

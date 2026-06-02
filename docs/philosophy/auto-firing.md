@@ -27,7 +27,7 @@ The point of this config is that discipline fires *mechanically* — you don't h
     - Synthesis: blockers + convergent concerns + persona-specific findings + "what they agreed was fine" + Claude's independent take.
 
 ??? example "4 — Edit to a grant doc → headline-numbers regression check"
-    Tool call: `Edit(file_path=".../rlink2026/biology_for_grant.md", ...)`
+    Tool call: `Edit(file_path=".../grant-repo/biology_for_grant.md", ...)`
 
     `headline_numbers_check.sh` (PostToolUse, Edit matcher):
 
