@@ -157,6 +157,8 @@ cd ~/code/claude-config
 
 After install, reload the session to activate the hook watcher (see [Notes](#notes)).
 
+**Tested install.** `tests/test_install.sh` installs into a throwaway `$HOME`, asserts every component landed, the `__CLAUDE_HOME__` placeholder fully resolved, `settings.json` is valid, the agents register, the hook smoke-test passes 0-fail, and no identifiers leaked. CI runs it on every push (`.github/workflows/install-test.yml`), so a change can't silently break your install. Run it yourself: `bash tests/test_install.sh`.
+
 ## Sync changes back from `~/.claude/` to this repo
 
 When you've edited a file in `~/.claude/` (e.g. via Claude Code itself updating settings.json, or you tweaked a skill) and want to capture the change:

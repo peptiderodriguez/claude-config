@@ -1,0 +1,25 @@
+name: install-test
+
+# Proves a fresh collaborator install produces a working persona — runs
+# tests/test_install.sh (install into a sandbox $HOME, assert every component
+# landed, __CLAUDE_HOME__ resolved, hook smoke-test 0-fail, anonymize --check).
+# Gates main + every PR so a change can't silently break the user install.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  install-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install jq (hooks' only hard dependency)
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Fresh-install integration test
+        run: bash tests/test_install.sh
