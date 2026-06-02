@@ -33,4 +33,8 @@ Keep the structure (driving philosophies with falsifiable triggers, house style,
 
 The memory and `CLAUDE.md` carry personal context even after pruning. A **private repo is recommended** unless you've deliberately genericized everything.
 
-Looking for the genuinely reusable, domain-free part? See [Building blocks](building-blocks.md).
+## Where to go next
+
+- **Build a config like this from your own usage** → [The `/onboard` meta-analysis](meta-analysis.md) (mine your transcripts → reframe → install).
+- **Give one of your pipelines a guided Claude UI** → [Writing an `/analyze` guide](analyze-pattern.md) (+ a copy-paste template).
+- **Grab the domain-free reusable tier** → [Building blocks](building-blocks.md) (the anti-rot CI/hygiene drop-in).

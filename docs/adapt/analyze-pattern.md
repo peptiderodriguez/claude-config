@@ -78,5 +78,5 @@ Always use AskUserQuestion for every question. Tone: concise, colleague-not-text
 <full toolbox — shown only on request>
 ```
 
-!!! tip "Want this generated?"
-    The `meta_claude_usage` notes flag a `/scaffold-analyze` skill — a generator that stubs a project's `analyze.md` from this skeleton — as the highest-leverage unbuilt tool. It isn't in this repo yet; see [Provenance](../provenance.md). Ask if you'd like it built.
+!!! tip "Let the skill generate it"
+    You don't have to fill the template by hand — the **`scaffold-analyze`** skill (Tier 1) interviews you about your pipeline and writes `<project>/.claude/commands/analyze.md` from this skeleton. Invoke it with *"scaffold an analyze command"* / *"give my pipeline a Claude UI"*; see the [Skills catalog](../catalog/skills.md).

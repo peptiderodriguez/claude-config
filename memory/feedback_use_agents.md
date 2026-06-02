@@ -26,6 +26,8 @@ Their verbatim phrases:
 
 **Critical: subagent sandbox caveat.** Subagents inherit the **parent session's sandbox/permission scope**, not the parent's per-call allowances. They cannot read paths outside the project root (notably `/Volumes/pool-mann-<operator>/` or `~/.claude/projects/`) unless those are in the configured `additionalDirectories`.
 
+**Subagent WRITES (updated 2026-06): possible, but gated OFF by default.** A subagent CAN Write/Edit once the cwd's `.claude/settings.local.json` grants a `Write(<repo>/**)`/`Edit(<repo>/**)` allow-rule (it inherits the parent scope) — the old "agents can't write in pool" belief was wrong. But uncontrolled parallel writes caused a concurrent-merge never-event, so `agent_write_guard.sh` denies subagent writes by default (detects them via the call's top-level `.agent_id`). Default pattern is still "return edits as text, main thread applies"; to arm one isolated writer, `touch <cwd>/.claude/.allow_agent_writes` + run it `isolation: "worktree"`. See the Subagents section of `CLAUDE.md`.
+
 **Candidate format (failure observed, fix unverified):**
 
 ```json

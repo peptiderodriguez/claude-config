@@ -8,6 +8,7 @@ Terms used throughout this repo that assume context. Most come from the operator
 | **scar / scar-tissue** | A rule that exists because of a specific past incident, not as generic advice. The whole `CLAUDE.md` is "scar-tissue only" — see [Why scar-tissue rules](philosophy/index.md). |
 | **flywheel (not pipeline)** | A driving philosophy: prefer closed loops where outputs feed back as inputs (data → adapters → fixtures → predictions → wet-lab → data) over one-shot A→B→C pipelines. |
 | **TRIGGER clause** | The line at the top of a skill/agent file listing the phrases or conditions that make it auto-fire (e.g. `/critique` fires on "review"). |
+| **`/onboard` vs `/analyze`** | Two "build-your-own" skills, easily confused. **`/onboard`** mines *your* Claude usage to build a *config* like this repo. **`/analyze`** is a *per-project* interactive front-door that guides a user through *that project's pipeline* — you generate one per project (e.g. via the `scaffold-analyze` skill), it isn't a single shipped command. |
 | **hook** | A shell script wired to a Claude Code event in `settings.json` (UserPromptSubmit, PreToolUse, PostToolUse, PostCompact, SessionEnd) that runs automatically — see the [Hooks catalog](catalog/hooks.md). |
 | **memory** | Durable cross-session facts in `memory/*.md`, loaded by cwd — see the [Memory catalog](catalog/memory.md). |
 | **vault mode** | A mode of the `/orient` skill: when run from the Obsidian notes vault (not a code repo), it surfaces the *sibling* Claude sessions you're coordinating instead of one repo's state. |

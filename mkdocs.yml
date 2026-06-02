@@ -79,9 +79,9 @@ nav:
       - How auto-firing works: philosophy/auto-firing.md
   - Catalog:
       - Skills (11): catalog/skills.md
-      - Hooks (13): catalog/hooks.md
+      - Hooks (14): catalog/hooks.md
       - Agents (3): catalog/agents.md
-      - Memory (9): catalog/memory.md
+      - Memory (11): catalog/memory.md
   - Adapt it:
       - Make it yours: adapt/index.md
       - Build your own (/onboard): adapt/meta-analysis.md

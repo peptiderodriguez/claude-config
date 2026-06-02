@@ -1,2 +1,9 @@
 *.pre-install
 .DS_Store
+
+# Local, machine-specific permission grants (contain real absolute paths) — never commit.
+settings.local.json
+# Subagent-write capability artifacts (see hooks/agent_write_guard.sh).
+.allow_agent_writes
+.claude/agent_write_guard.log
+.claude/worktrees/

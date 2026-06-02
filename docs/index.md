@@ -14,7 +14,7 @@ It installs into `~/.claude/` and **auto-fires the right discipline at the right
 
 - **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in your prompt.
 - **3 custom agents** — adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), dissent meta-check (`dissent-auditor`).
-- **13 hooks** — mechanically enforce rules (block destructive commands, inject state on status questions, scar-anchored pre-flight checks).
+- **14 hooks** — mechanically enforce rules (block destructive commands, inject state on status questions, scar-anchored pre-flight checks).
 - **Durable memory** across sessions for patterns that don't fit the global `CLAUDE.md`.
 - **Portable building blocks** — drop the anti-rot tier into a fresh repo in minutes (see [Building blocks](adapt/building-blocks.md)).
 
@@ -24,10 +24,10 @@ It installs into `~/.claude/` and **auto-fires the right discipline at the right
 |---|---:|---|
 | Global rules | 1 | `CLAUDE.md` |
 | Skills | 11 | `commands/*.md` |
-| Hooks | 13 | `hooks/*.sh` + `settings.json` |
+| Hooks | 14 | `hooks/*.sh` + `settings.json` |
 | Agents | 3 | `agents/*.md` |
-| Memory files | 9 (+ index) | `memory/*.md` |
-| Helper scripts | 1 | `scripts/` |
+| Memory files | 11 (+ index) | `memory/*.md` |
+| Helper scripts | 3 | `scripts/` (incl. the anonymization filter) |
 
 ## Install
 

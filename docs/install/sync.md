@@ -13,7 +13,7 @@ git push
 ## What `sync.sh` copies
 
 - `~/.claude/CLAUDE.md` and `~/.claude/settings.json`
-- All 13 hooks + the hook test harness (`hooks/tests/`)
+- All 14 hooks + the hook test harness (`hooks/tests/`)
 - All 3 agents and the `scripts/` helpers
 - The **11 custom skills** named in the whitelist at `sync.sh:14` (it skips any pre-existing global commands you didn't author)
 - Durable memory, from the directory derived from `$HOME/data/code` (same sanitizing rule `install.sh` uses)

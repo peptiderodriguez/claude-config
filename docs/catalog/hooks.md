@@ -1,9 +1,9 @@
-# Hooks (13)
+# Hooks (14)
 
 Hooks live in `hooks/*.sh` and are wired to tool/session events in `settings.json`. They are the *mechanical* layer — they fire whether or not Claude remembers the rule.
 
-!!! danger "Two hooks hard-deny; one asks"
-    `scancel_guard` and `tmp_write_guard` return `permissionDecision: deny`. `pre_sbatch_guard` asks for confirmation on portfolio-scale launches. The rest inject context or run checks.
+!!! danger "Three hooks hard-deny; one asks"
+    `scancel_guard`, `tmp_write_guard`, and `agent_write_guard` (subagent writes) return `permissionDecision: deny`. `pre_sbatch_guard` asks for confirmation on portfolio-scale launches. The rest inject context or run checks.
 
 | Hook | Event | What it does |
 |---|---|---|
@@ -13,6 +13,7 @@ Hooks live in `hooks/*.sh` and are wired to tool/session events in `settings.jso
 | **`scancel_guard.sh`** | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (wiped-library-gen scar). Kill by explicit job-id list |
 | `pre_sbatch_guard.sh` | PreToolUse (Bash) | Injects scar-anchored pre-flight; **ASKS** on portfolio-scale launches (≥2 sbatch + no env-source) |
 | **`tmp_write_guard.sh`** | PreToolUse (Bash/Write/Edit/…) | **DENIES** writes to `/tmp/*` (highest-scar rule — non-recoverable) |
+| **`agent_write_guard.sh`** | PreToolUse (Write/Edit/…) | **DENIES subagent/workflow writes by default** (via the call's `.agent_id`; main-thread passes). Arm an isolated worktree writer with `touch .claude/.allow_agent_writes`; logs decisions to `.claude/agent_write_guard.log` |
 | `subagent_sandbox_preflight.sh` | PreToolUse (Task) | Warns when a subagent briefing references paths outside this cwd's `additionalDirectories` |
 | `headline_numbers_check.sh` | PostToolUse (Edit/Write) | Per-project opt-in; runs the project's headline-numbers regression on matching edits, surfaces drift loudly |
 | `pmid_citation_guard.sh` | PostToolUse (Edit/Write/…) | Joins a citation manifest to a PubMed cache; fails loud on mismatch / missing row / missing cache. Composes with the `anti-fabrication` skill |

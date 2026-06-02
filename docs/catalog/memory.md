@@ -1,4 +1,4 @@
-# Memory (9)
+# Memory (11)
 
 Durable cross-session facts live in `memory/*.md`, indexed by `memory/MEMORY.md`. Each file holds one durable fact or pattern, linked to others with `[[wikilinks]]`.
 
@@ -16,5 +16,7 @@ Durable cross-session facts live in `memory/*.md`, indexed by `memory/MEMORY.md`
 | `project_pool_and_workflow` | `/Volumes`↔`/fs` symmetry, repo map, multi-session + daily-note coordination |
 | `stop_parsing_restructure_the_substrate` | When the N-th bug-fix spawns the next edge case, fix the representation |
 | `process_onboard_methodology` | Rationale + meta-lessons companion to the `/onboard` skill |
+| `feedback_controls_through_pipeline` | Controls run through the SAME standard pipeline as samples, de novo — never special-cased |
+| `feedback_wetlab_gating` | Don't push toward wet-lab / expensive irreversible steps until the pipeline is verified green |
 
 Because these are personal, [pruning memory](../adapt/index.md) is the first thing to do when you fork. Browse the files at `https://github.com/peptiderodriguez/claude-config/tree/main/memory`.

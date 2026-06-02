@@ -49,6 +49,11 @@
             "type": "command",
             "command": "__CLAUDE_HOME__/.claude/hooks/tmp_write_guard.sh",
             "timeout": 3
+          },
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/.claude/hooks/agent_write_guard.sh",
+            "timeout": 5
           }
         ]
       },

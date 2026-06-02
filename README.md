@@ -24,9 +24,10 @@ A `~/.claude/` install that **auto-fires the right discipline at the right time*
 
 - **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
 - **3 custom agents** with TRIGGER conditions — for adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), and dissent meta-check (`dissent-auditor`).
-- **13 hooks** — mechanically enforce rules (block destructive commands, inject context on status questions, surface scar-anchored pre-flight checks, etc.).
+- **14 hooks** — mechanically enforce rules (block destructive commands, inject context on status questions, surface scar-anchored pre-flight checks, etc.).
 - **Durable memory** across sessions for the patterns that don't fit in the global CLAUDE.md.
 - **Project-portable building blocks** — copy `_rot_exceptions.py` / `audit_xfail_age.py` / `_pre_push_suite_green.sh` into a fresh repo and you've got anti-rot discipline in 5 minutes (the `scaffold-discipline` skill plans this for you).
+- **Self-maintaining anonymization** — `sync.sh` scrubs real names/paths via `scripts/anonymize.py` + a fail-closed CI gate, keeping this a clean public fork of a private `~/.claude/` (add one row to `anonymize_map.tsv` per new identifier).
 
 ## What's installed
 
@@ -37,7 +38,7 @@ Loaded into every Claude Code session as memory. **Scar-tissue only** — every 
 - **Driving philosophies (with falsifiable triggers)** — flywheel-not-pipeline, fix-the-representation, generalization-as-destination, fail-loud, reviewer-proof-in-production, correct-over-expeditious (with 4 banned shortcuts: threshold-gaming / count-padding / tidy-over-true / allowlist-loosening), hacky-vs-clean (retreat to fewer cleaner claims), claims-defended-by-stacks, "while we wait" parallel-fill rhythm.
 - **House style** — `AskUserQuestion` always, plan-mode-first, terse, never write `/tmp`, numbered-reply coupling, compaction protocol, "never claim absence from a narrow search" (BANNED phrases + 3-step grep/call-chain protocol), re-derive live state from disk, FIX-to-defaults.
 - **Cluster discipline** — never the login node, scancel by job-id only, surface job status proactively, stale-state hygiene, sentinel-after-success, sequential-not-chained-`afterok`, inspect input format before config, 4-state diagnosis (RUNNING/QUEUED/FAILED/STALE-SENTINEL).
-- **Subagents** — DEFAULT-DELEGATE for read-heavy work, NEVER blind-trust agent returns, VERIFY ALIVE by notification not polling, DON'T BABYSIT, agents-cannot-write in pool, sandbox-caveat with per-cwd settings.local.json clarification.
+- **Subagents** — DEFAULT-DELEGATE for read-heavy work, NEVER blind-trust agent returns, VERIFY ALIVE by notification not polling, DON'T BABYSIT, subagent-writes-gated-off-by-default (`agent_write_guard.sh`; armable per-cwd for isolated worktree writers), sandbox-caveat with per-cwd settings.local.json clarification.
 - **Statistics + methodology** — benchmark-before-default, wrap helpers don't reimplement, don't double-correct paired designs, assumption manifest before sim/power-calc, verify execution environment, Python over R default.
 - **Critique loop** — `/critique` skill is the entry; cross-module composition pass after parallel fan-out; severity-tag + word-budget + N-axes output contract.
 - **How the operator works with you (relational)** — counterparty not yes-agent, mirror register, don't catastrophize cluster ops, stakes-flip-side, watch for delegation outpacing scaffolding, don't over-identify.
@@ -90,6 +91,7 @@ Grouped by portability — if you're adopting this, **tier 1 transfers to anyone
 | `scancel_guard.sh` | PreToolUse (Bash) | **DENIES** `scancel -u $USER` (past wiped-library-gen scar). Kill by explicit job-id list instead. |
 | `pre_sbatch_guard.sh` | PreToolUse (Bash) | Injects scar-anchored pre-flight (env-source, dependency IDs, num-gpus, etc.); **ASKS for confirmation** on portfolio-scale launches (≥2 sbatch + no env-source) |
 | `tmp_write_guard.sh` | PreToolUse (Bash / Write / Edit / MultiEdit / NotebookEdit) | **DENIES** writes to `/tmp/*` (highest-scar rule — "dude i thought i told you not to write to tmp" is non-recoverable) |
+| `agent_write_guard.sh` | PreToolUse (Write / Edit / MultiEdit / NotebookEdit) | **DENIES subagent/workflow writes by default** (detects via the call's top-level `.agent_id`; main-thread writes pass) — guards the concurrent-merge never-event. Arm an isolated worktree writer with `touch .claude/.allow_agent_writes`; logs every decision to `.claude/agent_write_guard.log` |
 | `subagent_sandbox_preflight.sh` | PreToolUse (Task / Agent) | Warns when subagent briefings reference paths outside this cwd's `settings.local.json::additionalDirectories` (catches the silent "I need permission" failure mode) |
 | `headline_numbers_check.sh` | PostToolUse (Edit / Write) | Per-project opt-in via `<repo>/.claude/headline_numbers_check.yaml`. Fast trigger_paths pre-check skips silently if the edited file doesn't match. When triggered, runs the project's `test_headline_numbers.py` regression — surfaces drift loudly. |
 | `pmid_citation_guard.sh` | PostToolUse (Edit / Write / MultiEdit / NotebookEdit) | Per-project or global manifest at `~/.claude/state/citations.csv` (DataFrame: pmid, first_author, year, journal, fixture, used_in, status) joined to cache at `~/.claude/cache/pubmed/<PMID>.json`. Fails loud on mismatch / missing row / missing cache. Composes with the `anti-fabrication` skill (skill = generation-time policy; hook = write-time mechanical enforcement). Seed via `~/.claude/scripts/seed_pubmed_cache.py <PMID>`. |
@@ -100,7 +102,7 @@ Grouped by portability — if you're adopting this, **tier 1 transfers to anyone
 
 ### Durable memory (`~/.claude/projects/<sanitized-cwd>/memory/`)
 
-Loaded for sessions whose cwd sanitizes to the installed memory dir (the operator's is `~/data/code/`; `install.sh` derives it from your `$HOME`). Index in `MEMORY.md`. 9 files (filenames use underscores): `user_psychological_style`, `feedback_house_style`, `feedback_critique_loop`, `feedback_use_agents`, `feedback_slurm_discipline`, `feedback_no_fabricated_panels`, `project_pool_and_workflow`, `process_onboard_methodology`, `stop_parsing_restructure_the_substrate`.
+Loaded for sessions whose cwd sanitizes to the installed memory dir (the operator's is `~/data/code/`; `install.sh` derives it from your `$HOME`). Index in `MEMORY.md`. 11 files (filenames use underscores): `user_psychological_style`, `feedback_house_style`, `feedback_critique_loop`, `feedback_use_agents`, `feedback_slurm_discipline`, `feedback_no_fabricated_panels`, `project_pool_and_workflow`, `process_onboard_methodology`, `stop_parsing_restructure_the_substrate`, `feedback_controls_through_pipeline`, `feedback_wetlab_gating`.
 
 ## How auto-firing works (key examples)
 
@@ -167,7 +169,7 @@ git add -A && git commit -m "sync: <what changed>"
 git push     # if remote configured
 ```
 
-The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 13 hooks, the hook test harness (`hooks/tests/`), all 11 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
+The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 14 hooks, the hook test harness (`hooks/tests/`), all 11 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
 
 **Anonymization is automatic and enforced.** This repo is a *public, anonymized fork* of the live `~/.claude/` — so `sync.sh` runs every synced file through `scripts/anonymize.py` (driven by `scripts/anonymize_map.tsv`: real names → generic codenames/placeholders), then a **fail-closed `--check`** that aborts the sync if any mapped identifier remains. To anonymize a new project or identifier, add one row to `anonymize_map.tsv`. A GitHub Action re-runs the same check on every push, so a leak can't merge even via a manual commit.
 

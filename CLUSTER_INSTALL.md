@@ -9,9 +9,9 @@ A snapshot of `~/.claude/`, path-agnostic (Mac paths tokenized as `__CLAUDE_HOME
 - **Global rules** (`CLAUDE.md`) — house style, cluster discipline, subagent rules, statistics methodology, driving philosophies, etc.
 - **11 custom skills** with auto-fire TRIGGERs (`commands/*.md`): `critique`, `cluster-traffic`, `sessions`, `orient`, `onboard`, `scaffold-agent`, `scaffold-analyze`, `anti-fabrication`, `grant-work-mode`, `covariate-screen`, `scaffold-discipline`
 - **3 custom agents** (`agents/*.md`): `dfg-reviewer`, `frame-auditor`, `dissent-auditor`
-- **13 hooks** (`hooks/*.sh`) — mechanical enforcement (scancel-deny, /tmp-write-deny, sbatch-preflight, PMID-citation-guard, etc.)
+- **14 hooks** (`hooks/*.sh`) — mechanical enforcement (scancel-deny, /tmp-write-deny, sbatch-preflight, PMID-citation-guard, etc.)
 - **Settings wiring** (`settings.json`)
-- **Helper script** (`scripts/seed_pubmed_cache.py`)
+- **Helper scripts** (`scripts/` — `seed_pubmed_cache.py` + the `anonymize.py` anonymization filter)
 - **Hook test harness** (`hooks/tests/run_all.sh`)
 - **Durable memory** (`memory/*.md`)
 
@@ -84,7 +84,7 @@ echo "=== Files installed ==="
 ls "$HOME/.claude/CLAUDE.md" "$HOME/.claude/settings.json"
 ls "$HOME/.claude/commands/" | wc -l   # >= 11 (11 custom from snapshot + any pre-existing globals)
 ls "$HOME/.claude/agents/" | wc -l     # should be 3
-ls "$HOME/.claude/hooks/"*.sh | wc -l  # should be 13
+ls "$HOME/.claude/hooks/"*.sh | wc -l  # should be 14
 ls "$HOME/.claude/scripts/" 2>/dev/null
 ls "$HOME/.claude/state/citations.csv"  # PMID manifest header
 ```

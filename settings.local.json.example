@@ -1,0 +1,12 @@
+{
+  "_comment": "Copy to <your-project>/.claude/settings.local.json (NOT committed; it holds real paths). Granting Write/Edit here lets SUBAGENTS write in that project (they inherit the parent's permission scope). Subagent writes are still gated OFF by default by hooks/agent_write_guard.sh — to let an isolated worktree agent write, also `touch <project>/.claude/.allow_agent_writes`. Replace the paths below with your project's absolute path(s).",
+  "permissions": {
+    "allow": [
+      "Write(/abs/path/to/your/project/**)",
+      "Edit(/abs/path/to/your/project/**)"
+    ],
+    "additionalDirectories": [
+      "/abs/path/to/your/project"
+    ]
+  }
+}
