@@ -39,9 +39,13 @@ done
 # same rule install.sh uses. If your durable memory lives elsewhere, point MEM_SRC
 # at it directly.
 MEM_SRC="$HOME/.claude/projects/$(printf '%s' "$HOME/data/code" | sed 's|[^a-zA-Z0-9]|-|g')/memory"
+mem_copied=0
 for f in "$MEM_SRC"/*.md; do
-  [ -f "$f" ] && cp "$f" memory/
+  [ -f "$f" ] && cp "$f" memory/ && mem_copied=$((mem_copied + 1))
 done
+if [ "$mem_copied" -eq 0 ]; then
+  echo "WARN: synced 0 memory files — '$MEM_SRC' is empty or wrong. Point MEM_SRC at your durable-memory dir." >&2
+fi
 
 # Vault meta-analyses (lives outside ~/.claude/) — glob all versions
 for f in ~/data/code/obsidian_base/meta_claude_usage_*.md; do

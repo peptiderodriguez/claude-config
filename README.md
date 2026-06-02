@@ -8,6 +8,16 @@ Throughout these docs, **"the operator"** means the repo's author / primary user
 
 > 📖 **Full documentation site** (MkDocs Material): https://peptiderodriguez.github.io/claude-config/ — built from `docs/`. Build locally with `pip install -r requirements-docs.txt && mkdocs serve`. See [Documentation site](#documentation-site).
 
+## Quick start
+
+```bash
+git clone https://github.com/peptiderodriguez/claude-config ~/code/claude-config
+cd ~/code/claude-config && ./install.sh    # installs into ~/.claude/, backs up anything it replaces
+# then in Claude Code: type /hooks (or restart) to activate the hooks
+```
+
+Needs Claude Code + the `jq` CLI + `python3` — see [Prerequisites](#prerequisites). New here? Skim the [docs site](https://peptiderodriguez.github.io/claude-config/) or [What this gives you](#what-this-gives-you) below.
+
 ## What this gives you
 
 A `~/.claude/` install that **auto-fires the right discipline at the right time** across every Claude Code session, without you having to remember the rule. Specifically:
@@ -130,7 +140,7 @@ Hook (PreToolUse, Task matcher): `subagent_sandbox_preflight.sh`
 
 ## Install on a fresh machine
 
-**Prerequisites:**
+### Prerequisites
 - [Claude Code](https://claude.com/claude-code) — this *is* a config for it.
 - `jq` (the CLI binary, **not** the `pip install jq` library) — every JSON-parsing hook needs it; without it hooks fail silently. See [cluster troubleshooting](CLUSTER_INSTALL.md#troubleshooting) for an isolated-env install.
 - `python3` — used by hooks for inline JSON parsing.
@@ -160,7 +170,7 @@ The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 13 hooks, 
 
 ## Documentation site
 
-A MkDocs (Material) site in `docs/` reorganizes everything here into a navigable form — install runbooks, the philosophy tour, the auto-firing worked examples, and browsable Skill/Hook/Agent/Memory catalogs (each row links to the source file).
+A MkDocs (Material) site in `docs/` reorganizes everything here into a navigable form — install runbooks, the philosophy tour, the auto-firing worked examples, browsable Skill/Hook/Agent/Memory catalogs (each row links to the source file), and "build your own" guides: the [`/onboard`](https://peptiderodriguez.github.io/claude-config/adapt/meta-analysis/) meta-analysis and the [`/analyze`](https://peptiderodriguez.github.io/claude-config/adapt/analyze-pattern/) pipeline-UI pattern (with a copy-paste [template](templates/analyze.template.md)).
 
 ```bash
 pip install -r requirements-docs.txt

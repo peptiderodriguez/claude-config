@@ -84,5 +84,8 @@ nav:
       - Memory (9): catalog/memory.md
   - Adapt it:
       - Make it yours: adapt/index.md
+      - Build your own (/onboard): adapt/meta-analysis.md
+      - Writing an /analyze guide: adapt/analyze-pattern.md
       - Building blocks: adapt/building-blocks.md
   - Provenance: provenance.md
+  - Glossary: glossary.md

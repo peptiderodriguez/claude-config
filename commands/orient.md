@@ -25,7 +25,7 @@ SKIP when the user is starting a clearly new topic (different repo, different do
 5. **Produce a 5–8 line state report:**
 
 ```
-RESUME — <project> @ <branch>
+ORIENT — <project> @ <branch>
   Memory: <which files loaded, comma-list>
   Open tasks (N): <first 2 task titles>
   Recent commits: <last 2 short>
@@ -57,7 +57,7 @@ RESUME — <project> @ <branch>
 6V. **Produce a 7–10 line vault-mode report:**
 
 ```
-RESUME (vault) — coordinating N sessions
+ORIENT (vault) — coordinating N sessions
   Sessions:
     <name1>: <path>  @ <branch>  · <last commit>  · <±uncommitted>
     <name2>: <path>  @ <branch>  · <last commit>  · <±uncommitted>

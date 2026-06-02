@@ -26,6 +26,7 @@ backup_if_exists() {
 echo "Installing claude-config from $REPO -> $TARGET/"
 echo "  HOME = $HOME"
 echo "  USER = $USER"
+echo "  MEM  = $MEM_DIR  (memory loads only for sessions whose cwd is \$HOME/data/code)"
 
 # Directory scaffolding
 mkdir -p "$TARGET/commands" \
