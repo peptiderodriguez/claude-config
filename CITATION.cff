@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this configuration or its patterns, please cite it as below."
+title: "claude-config: a scar-tissue Claude Code configuration"
+abstract: >-
+  A personal Claude Code configuration for cluster-scale R&D work: global
+  scar-tissue rules, auto-firing skills, mechanical-enforcement hooks, custom
+  review agents, and durable cross-session memory.
+type: software
+authors:
+  - alias: peptiderodriguez
+    name: peptiderodriguez
+repository-code: "https://github.com/peptiderodriguez/claude-config"
+url: "https://peptiderodriguez.github.io/claude-config/"
+license: MIT
+date-released: "2026-06-02"
+keywords:
+  - claude-code
+  - llm-agents
+  - developer-tooling
+  - reproducibility

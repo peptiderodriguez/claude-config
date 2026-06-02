@@ -4,6 +4,8 @@ Personal Claude Code configuration for cluster-scale R&D work: global rules, cus
 
 Snapshot, not live — sync explicitly via `./sync.sh` when you want to capture changes from `~/.claude/`.
 
+Throughout these docs, **"the operator"** means the repo's author / primary user — the config and memory are written in the third person about them. If you adopt this, that's you.
+
 > 📖 **Full documentation site** (MkDocs Material): https://peptiderodriguez.github.io/claude-config/ — built from `docs/`. Build locally with `pip install -r requirements-docs.txt && mkdocs serve`. See [Documentation site](#documentation-site).
 
 ## What this gives you
@@ -32,18 +34,32 @@ Loaded into every Claude Code session as memory. **Scar-tissue only** — every 
 
 ### Skills (`~/.claude/commands/*.md`) — auto-fire via TRIGGER
 
+Grouped by portability — if you're adopting this, **tier 1 transfers to anyone**, tier 2 to any researcher, tier 3 is HPC/omics-specific (take or drop as a unit).
+
+**Tier 1 — General (any user):**
+
 | Skill | What it does | Auto-fires when |
 |---|---|---|
 | `critique` | Multi-agent adversarial review with 3-4 personas; auto-includes Frame-skeptic on grant context; wires `dfg-reviewer` for methodology slot; dissent-auditor meta-check at step 5.5 | User says "review", "critique", "launch [N] adversarial agents" |
-| `cluster-traffic` | SLURM queue + partition snapshot (`squeue`, `sinfo`); per-job log-tail flow | "how are the jobs", "what's running", "what's the cluster doing" |
 | `orient` | Post-compaction state report; project mode vs vault mode; reads daily-note CLAUDE SESSIONS block | "where are we", "what was I doing", post-compaction context |
 | `sessions` | Maintain daily-note `CLAUDE SESSIONS:` block | Session start/end |
 | `onboard` | Re-run the meta-analysis methodology if friction patterns re-emerge | "analyze how I use you", "audit my Claude setup" |
 | `scaffold-agent` | Bootstrap a new subagent spec with the conventions converged across `dfg-reviewer` / `frame-auditor` / `dissent-auditor` | "scaffold a new agent" |
+| `scaffold-discipline` | Plan to bootstrap the drop-in anti-rot tier (`_rot_exceptions.py`, `audit_xfail_age.py`, placeholder-citations scanner, hygiene block, `_pre_push_suite_green.sh`, CI mirroring) into a fresh repo | "set up anti-rot", "bootstrap pre-commit", "scaffold discipline" |
+
+**Tier 2 — Research-general (any scientist):**
+
+| Skill | What it does | Auto-fires when |
+|---|---|---|
 | `anti-fabrication` | Refuse to invent PMIDs, PDB IDs, UniProt accessions, vendor catalog numbers, etc. — every claim either verified or `[NEEDS X — check Y at Z]` | Mentions of PMID / PDB / UniProt / Addgene / vendor cat / cite |
 | `grant-work-mode` | Bundles canonical-headlines (read from project source-of-truth file, NOT hardcoded), stakes-flip-side, no-hedged-claims, reviewer-proof posture | Cwd contains `rlink2026` / `*grant*`, OR prompt mentions DFG / NIH / NSF / submission / reviewer-proof / preregistration |
+
+**Tier 3 — Domain & infra-specific (HPC + omics):**
+
+| Skill | What it does | Auto-fires when |
+|---|---|---|
+| `cluster-traffic` | SLURM queue + partition snapshot (`squeue`, `sinfo`); per-job log-tail flow | "how are the jobs", "what's running", "what's the cluster doing" |
 | `covariate-screen` | Cross-sectional clinical-covariate screen for any feature × sample matrix (proteome / transcriptome / count matrix). Geyer plasma-QC (proteomics-only), Phase-4 confounding sanity, Phase-6 cross-sectional with single-feature-nominal-p-not-actionable rule | "correlate X to covariates", "is plate a confound", "what covariates should I adjust for" |
-| `scaffold-discipline` | Plan to bootstrap the drop-in anti-rot tier (`_rot_exceptions.py`, `audit_xfail_age.py`, placeholder-citations scanner, hygiene block, `_pre_push_suite_green.sh`, CI mirroring) into a fresh repo | "set up anti-rot", "bootstrap pre-commit", "scaffold discipline" |
 
 ### Agents (`~/.claude/agents/*.md`)
 
@@ -114,6 +130,12 @@ Hook (PreToolUse, Task matcher): `subagent_sandbox_preflight.sh`
 
 ## Install on a fresh machine
 
+**Prerequisites:**
+- [Claude Code](https://claude.com/claude-code) — this *is* a config for it.
+- `jq` (the CLI binary, **not** the `pip install jq` library) — every JSON-parsing hook needs it; without it hooks fail silently. See [cluster troubleshooting](CLUSTER_INSTALL.md#troubleshooting) for an isolated-env install.
+- `python3` — used by hooks for inline JSON parsing.
+- (Docs site only) `pip install -r requirements-docs.txt` for `mkdocs`.
+
 ```bash
 git clone <repo-url> ~/code/claude-config
 cd ~/code/claude-config
@@ -148,6 +170,24 @@ mkdocs gh-deploy        # publish to the gh-pages branch (or let .github/workflo
 
 Fill in `site_url`/`repo_url` in `mkdocs.yml` before deploying. This README stays the standalone landing doc; the site is the same content reorganized for browsing.
 
+## License
+
+MIT — see [LICENSE](LICENSE). Fork it, adapt it, make it yours.
+
+## Citation
+
+If this repo or its patterns inform your own setup or writing, a citation is appreciated (GitHub also shows a "Cite this repository" button from `CITATION.cff`):
+
+```bibtex
+@misc{claude-config,
+  author       = {peptiderodriguez},
+  title        = {claude-config: a scar-tissue Claude Code configuration},
+  year         = {2026},
+  howpublished = {\url{https://github.com/peptiderodriguez/claude-config}},
+  note         = {Global rules, auto-firing skills, enforcement hooks, custom agents, and durable memory}
+}
+```
+
 ## Provenance
 
 Initial bootstrap: 2026-05-24 — meta-analysis of ~5,270 user messages + 6 pool `CLAUDE.md` files + 5 `/analyze` slash-commands. See `meta_claude_usage_2026-05-24.md` + `_v3.md` for the operator-platform reframe.
@@ -156,7 +196,8 @@ Initial bootstrap: 2026-05-24 — meta-analysis of ~5,270 user messages + 6 pool
 
 ## Notes
 
-- **Private repo recommended.** `memory/` references colleagues, project paths, and the lab's internal patterns; `CLAUDE.md` includes psychological-style notes that aren't public; nothing is a secret but it's personal context.
+- **Personal content, anonymized.** This repo is public and scrubbed of real names/paths (identifiers replaced with `<operator>` / `<collab>` / `<institution>`). The `memory/` and `CLAUDE.md` layers are still inherently personal (working style, project patterns) — if you fork and add *your own* memory, consider whether your fork should be private.
+- **Installing runs the author's hooks in your sessions.** Like any dotfiles repo: `install.sh` places hooks that execute on your tool calls / prompts inside Claude Code (nothing runs on `git clone`). Read `hooks/` before installing if that matters to you.
 - **The hooks need a session reload after install.** Open `/hooks` once in Claude Code or restart the session — the watcher only tracks files that existed at session start.
 - **Skills appear in the available-skills list automatically.** TRIGGERs at the top of each skill description determine auto-firing; you can also invoke explicitly as `/skill-name`.
-- **Custom agents (frame-auditor, dissent-auditor, dfg-reviewer) require explicit registration** in the model's agent type registry — they may not appear as `subagent_type` options out of the box. If `Agent(subagent_type="dfg-reviewer", ...)` returns "agent type not found", invoke as `subagent_type="general-purpose"` with the agent's prompt body embedded inline.
+- **Custom agents register via their `name:` frontmatter.** Claude Code discovers `~/.claude/agents/*.md` at session start and registers each as a `subagent_type` using the `name:` field (reload with `/agents` after install). If a given runtime exposes only a curated agent set and `Agent(subagent_type="dfg-reviewer", ...)` returns "agent type not found", fall back to `subagent_type="general-purpose"` with the agent's prompt body embedded inline.

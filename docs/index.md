@@ -7,6 +7,9 @@ It installs into `~/.claude/` and **auto-fires the right discipline at the right
 !!! warning "Snapshot, not a framework"
     This is *one researcher's* config, captured as a snapshot (sync explicitly with `./sync.sh`). It's a worked example to learn from and adapt — not a turnkey product. The memory and rules encode personal, domain-specific (proteomics / HPC) context.
 
+!!! info "\"the operator\""
+    Throughout these docs, **"the operator"** = the repo's author / primary user; the config is written in the third person about them. If you adopt this, that's you.
+
 ## What it gives you
 
 - **10 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in your prompt.

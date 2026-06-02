@@ -1,4 +1,5 @@
 ---
+name: dfg-reviewer
 description: Adversarial grant reviewer persona — DFG/NIH/NSF style methodology-skeptic who has previously denied this group funding. Use when running /critique on grant-related work, or when stakes-anchoring keywords appear (grant, funding, submission, deadline, PI sign-off).
 ---
 

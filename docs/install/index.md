@@ -1,5 +1,12 @@
 # Quickstart install
 
+## Prerequisites
+
+- **[Claude Code](https://claude.com/claude-code)** — this repo is a configuration *for* it.
+- **`jq`** — the CLI binary, **not** the `pip install jq` Python library. Every JSON-parsing hook calls it; without it, hooks fail silently. See [cluster troubleshooting](cluster.md#troubleshooting) for an isolated-env install that also works on a Mac (`conda`/`brew install jq`).
+- **`python3`** — hooks use it for inline JSON parsing.
+- **(Docs only)** `mkdocs-material` via `pip install -r requirements-docs.txt` if you want to build this site locally.
+
 ```bash
 git clone <repo-url> ~/code/claude-config
 cd ~/code/claude-config
