@@ -1,0 +1,22 @@
+name: anonymization-check
+
+# Fail-closed gate: if any real identifier (a rule in scripts/anonymize_map.tsv)
+# appears anywhere in the repo, this check fails — so a leak can't merge even if
+# someone commits without running ./sync.sh.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Scan for un-anonymized identifiers
+        run: python3 scripts/anonymize.py --check .

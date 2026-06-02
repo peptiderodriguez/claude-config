@@ -1,0 +1,44 @@
+# Anonymization map — single source of truth for scrubbing the public repo.
+# sync.sh runs `anonymize.py --apply` (live ~/.claude -> repo) then
+# `anonymize.py --check` (fail-closed gate). Edit THIS file when a new project
+# or identifier appears, then re-run sync. One rule per line, TAB-separated:
+#
+#   <mode>\t<pattern>\t<replacement>
+#
+# mode = lit  (literal substring)  |  re  (Python regex)
+# Rules are applied longest-pattern-first automatically, so more-specific
+# patterns (e.g. ehr_proteomics_analysis) win over prefixes (ehr_proteomics).
+# Lines starting with # and blank lines are ignored.
+
+# --- home-path tokenization (longer than the pool rule, so these win first) ---
+lit	/Users/edwin/.claude	__CLAUDE_HOME__/.claude
+lit	/fs/gpfs41/lv12/fileset02/pool/pool-mann-edwin/.claude	__CLAUDE_HOME__/.claude
+lit	/fs/pool/pool-mann-edwin/.claude	__CLAUDE_HOME__/.claude
+
+# --- personal identifiers ---
+lit	edwin25@gmail.com	<operator-email>
+lit	pool-mann-edwin	pool-mann-<operator>
+re	\bMax Planck\b	<institution>
+re	\bMPCDF\b	<institution>
+re	\bMPIP\b	<institution>
+re	\bMann Lab\b	<lab>
+re	(?i)\bschulze\w*	<collab>
+re	\bedwin\b	<operator>
+
+# --- project codenames (real -> generic; edit/extend as projects appear) ---
+lit	ehr_proteomics_analysis	clinical-omics
+lit	ehr_r046	clinical-omics-2
+lit	ehr_proteomics	clinical-omics
+lit	xldvp_seg	imaging-seg
+lit	perturb_phos	design-cli
+lit	alphaquant	proteomics-quant
+lit	rlink2026	grant-repo
+lit	aq_runner	quant-runner
+lit	minibinder	binder-design
+lit	marcpos2	session-a
+lit	senescence	aging-study
+lit	UKB-PPP	clinical-cohort
+lit	b1trainer	model-trainer
+lit	af2ig	structure-tool
+lit	csf3	session-b
+lit	libgen	library-gen

@@ -169,6 +169,8 @@ git push     # if remote configured
 
 The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 13 hooks, the hook test harness (`hooks/tests/`), all 11 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
 
+**Anonymization is automatic and enforced.** This repo is a *public, anonymized fork* of the live `~/.claude/` — so `sync.sh` runs every synced file through `scripts/anonymize.py` (driven by `scripts/anonymize_map.tsv`: real names → generic codenames/placeholders), then a **fail-closed `--check`** that aborts the sync if any mapped identifier remains. To anonymize a new project or identifier, add one row to `anonymize_map.tsv`. A GitHub Action re-runs the same check on every push, so a leak can't merge even via a manual commit.
+
 ## Documentation site
 
 A MkDocs (Material) site in `docs/` reorganizes everything here into a navigable form — install runbooks, the philosophy tour, the auto-firing worked examples, browsable Skill/Hook/Agent/Memory catalogs (each row links to the source file), and "build your own" guides: the [`/onboard`](https://peptiderodriguez.github.io/claude-config/adapt/meta-analysis/) meta-analysis and the [`/analyze`](https://peptiderodriguez.github.io/claude-config/adapt/analyze-pattern/) pipeline-UI pattern (with a copy-paste [template](templates/analyze.template.md)).

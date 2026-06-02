@@ -52,4 +52,19 @@ for f in ~/data/code/obsidian_base/meta_claude_usage_*.md; do
   [ -f "$f" ] && cp "$f" "$(basename "$f")"
 done
 
-echo "Synced. Review with: git diff"
+# --- Anonymize everything just synced (live real names -> generic), then verify ---
+# The repo is a public, anonymized fork of the live ~/.claude. Without this step a
+# sync would re-leak real project names / identifiers. The map is the source of
+# truth (scripts/anonymize_map.tsv); the --check is fail-closed.
+echo "Anonymizing synced files (scripts/anonymize_map.tsv)..."
+python3 "$REPO/scripts/anonymize.py" --apply "$REPO"
+
+echo "Verifying no real identifiers leaked..."
+if ! python3 "$REPO/scripts/anonymize.py" --check "$REPO"; then
+  echo "ERROR: anonymization check FAILED — real identifiers are present in the repo." >&2
+  echo "       Add the missing mapping to scripts/anonymize_map.tsv, then re-run ./sync.sh." >&2
+  echo "       Do NOT commit until this passes." >&2
+  exit 1
+fi
+
+echo "Synced + anonymized. Review with: git diff"
