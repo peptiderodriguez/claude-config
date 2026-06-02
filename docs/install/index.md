@@ -29,7 +29,7 @@ cd ~/code/claude-config
 ## Smoke-test
 
 ```bash
-bash "$HOME/.claude/hooks/tests/run_all.sh"     # expect: 25 pass, 0 fail
+bash "$HOME/.claude/hooks/tests/run_all.sh"     # expect: 28 pass, 0 fail
 ```
 
 If tests fail with `got=silent`, you're likely missing the `jq` CLI — see the [Cluster runbook](cluster.md#troubleshooting) for the fix (it applies anywhere).

@@ -55,6 +55,9 @@ headline_numbers_check|silent-without-opt-in|silent|{"tool_name":"Write","tool_i
 headline_numbers_check|silent-on-non-edit-tool|silent|{"tool_name":"Bash","tool_input":{"command":"ls"}}
 pmid_citation_guard|silent-on-no-pmid|silent|{"tool_name":"Write","tool_input":{"file_path":"$HOME/data/code/obsidian_base/scripts/no_pmid_here.md"}}
 pmid_citation_guard|silent-on-non-text-file|silent|{"tool_name":"Write","tool_input":{"file_path":"$HOME/.claude/hooks/test.sh"}}
+agent_write_guard|main-write-allowed|silent|{"tool_name":"Write","tool_input":{"file_path":"/proj/file.py"}}
+agent_write_guard|subagent-write-denied|deny|{"tool_name":"Write","tool_input":{"file_path":"/proj/file.py"},"agent_id":"a1","agent_type":"general-purpose"}
+agent_write_guard|subagent-armed-allowed|silent|{"tool_name":"Write","tool_input":{"file_path":"/proj/file.py"},"agent_id":"a1","agent_type":"general-purpose"}|arm
 EOF
 )
 
@@ -67,7 +70,16 @@ while IFS='|' read -r hook case_name expected stdin grant; do
     continue
   fi
 
-  if [ -n "$grant" ]; then
+  if [ "$hook" = "agent_write_guard" ]; then
+    # Run from a sandbox cwd with HOME=sandbox so BOTH .allow_agent_writes checks
+    # (cwd-local AND $HOME) are controlled and deterministic regardless of the
+    # tester's machine. grant=="arm" arms the escape-hatch sentinel.
+    sandbox="$HOOK_DIR/tests/.sandbox_cwd"
+    rm -rf "$sandbox"; mkdir -p "$sandbox/.claude"
+    [ "$grant" = "arm" ] && touch "$sandbox/.claude/.allow_agent_writes"
+    output=$(cd "$sandbox" && echo "$stdin" | HOME="$sandbox" bash "$hook_path" 2>/dev/null)
+    rm -rf "$sandbox"
+  elif [ -n "$grant" ]; then
     # Run the hook from a throwaway cwd that grants $grant, so cwd-dependent
     # hooks are tested self-contained (no reliance on a real project's grant).
     sandbox="$HOOK_DIR/tests/.sandbox_cwd"

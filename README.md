@@ -25,7 +25,7 @@ A `~/.claude/` install that **auto-fires the right discipline at the right time*
 - **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
 - **3 custom agents** with TRIGGER conditions — for adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), and dissent meta-check (`dissent-auditor`).
 - **14 hooks** — mechanically enforce rules (block destructive commands, inject context on status questions, surface scar-anchored pre-flight checks, etc.).
-- **Durable memory** across sessions for the patterns that don't fit in the global CLAUDE.md.
+- **Durable memory** across sessions for patterns that don't fit the global CLAUDE.md. *(Note: the `memory/*.md` files auto-load only when you work from `~/data/code` — Claude keys memory to the cwd. The behavioral persona itself is in the global `CLAUDE.md` + skills + hooks + agents, which load in **every** session from any directory, so the persona transfers immediately even where the memory files don't.)*
 - **Project-portable building blocks** — copy `_rot_exceptions.py` / `audit_xfail_age.py` / `_pre_push_suite_green.sh` into a fresh repo and you've got anti-rot discipline in 5 minutes (the `scaffold-discipline` skill plans this for you).
 - **Self-maintaining anonymization** — `sync.sh` scrubs real names/paths via `scripts/anonymize.py` + a fail-closed CI gate, keeping this a clean public fork of a private `~/.claude/` (add one row to `anonymize_map.tsv` per new identifier).
 

@@ -53,7 +53,7 @@ Expected output: a list of file copies + the path rewrites, ending with `Install
 bash "$HOME/.claude/hooks/tests/run_all.sh"
 ```
 
-Expected: `25 pass, 0 fail`. If any FAIL, surface the names to the user.
+Expected: `28 pass, 0 fail`. If any FAIL, surface the names to the user.
 
 **Two known gotchas:**
 
@@ -156,7 +156,7 @@ After steps 1–7 complete cleanly and the user has reloaded `/hooks`, the clust
 ```
 Cluster install complete.
   $HOME/.claude/ populated: <X> hooks, <Y> skills, <Z> agents
-  Smoke test: 25/25 pass
+  Smoke test: 28/28 pass
   settings.json: valid
   Action required: type /hooks to reload, OR restart this Claude session.
 ```
