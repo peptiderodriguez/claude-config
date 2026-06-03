@@ -22,7 +22,7 @@ Needs Claude Code + the `jq` CLI + `python3` — see [Prerequisites](#prerequisi
 
 A `~/.claude/` install that **auto-fires the right discipline at the right time** across every Claude Code session, without you having to remember the rule. Specifically:
 
-- **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
+- **12 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in the prompt.
 - **3 custom agents** with TRIGGER conditions — for adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), and dissent meta-check (`dissent-auditor`).
 - **14 hooks** — mechanically enforce rules (block destructive commands, inject context on status questions, surface scar-anchored pre-flight checks, etc.).
 - **Durable memory** across sessions for patterns that don't fit the global CLAUDE.md. *(Note: the `memory/*.md` files auto-load only when you work from `~/data/code` — Claude keys memory to the cwd. The behavioral persona itself is in the global `CLAUDE.md` + skills + hooks + agents, which load in **every** session from any directory, so the persona transfers immediately even where the memory files don't.)*
@@ -53,6 +53,7 @@ Grouped by portability — if you're adopting this, **tier 1 transfers to anyone
 |---|---|---|
 | `critique` | Multi-agent adversarial review with 3-4 personas; auto-includes Frame-skeptic on grant context; wires `dfg-reviewer` for methodology slot; dissent-auditor meta-check at step 5.5 | User says "review", "critique", "launch [N] adversarial agents" |
 | `orient` | Post-compaction state report; project mode vs vault mode; reads daily-note CLAUDE SESSIONS block | "where are we", "what was I doing", post-compaction context |
+| `checkpoint` | Write-side complement to `/orient`: writes a dated handoff doc (committed state + in-flight 4-state + the EXACT resume sequence + gates) so a fresh window drives the finish | "checkpoint", "save a handoff", "running low on context", "before we stop" |
 | `sessions` | Maintain daily-note `CLAUDE SESSIONS:` block | Session start/end |
 | `onboard` | Re-run the meta-analysis methodology if friction patterns re-emerge | "analyze how I use you", "audit my Claude setup" |
 | `scaffold-agent` | Bootstrap a new subagent spec with the conventions converged across `dfg-reviewer` / `frame-auditor` / `dissent-auditor` | "scaffold a new agent" |
@@ -171,7 +172,7 @@ git add -A && git commit -m "sync: <what changed>"
 git push     # if remote configured
 ```
 
-The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 14 hooks, the hook test harness (`hooks/tests/`), all 11 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
+The sync covers `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, all 14 hooks, the hook test harness (`hooks/tests/`), all 12 custom skills (whitelist in `sync.sh:14` — update when adding new skills), all 3 agents, `scripts/`, the durable-memory dir (derived from `$HOME/data/code`), and the vault meta-analyses.
 
 **Anonymization is automatic and enforced.** This repo is a *public, anonymized fork* of the live `~/.claude/` — so `sync.sh` runs every synced file through `scripts/anonymize.py` (driven by `scripts/anonymize_map.tsv`: real names → generic codenames/placeholders), then a **fail-closed `--check`** that aborts the sync if any mapped identifier remains. To anonymize a new project or identifier, add one row to `anonymize_map.tsv`. A GitHub Action re-runs the same check on every push, so a leak can't merge even via a manual commit.
 

@@ -12,7 +12,7 @@ It installs into `~/.claude/` and **auto-fires the right discipline at the right
 
 ## What it gives you
 
-- **11 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in your prompt.
+- **12 global skills** with TRIGGER clauses — fire automatically when their phrase patterns appear in your prompt.
 - **3 custom agents** — adversarial review (`dfg-reviewer`), CLAUDE.md-compliance audit (`frame-auditor`), dissent meta-check (`dissent-auditor`).
 - **14 hooks** — mechanically enforce rules (block destructive commands, inject state on status questions, scar-anchored pre-flight checks).
 - **Durable memory** across sessions for patterns that don't fit the global `CLAUDE.md`.
@@ -23,7 +23,7 @@ It installs into `~/.claude/` and **auto-fires the right discipline at the right
 | Component | Count | Where |
 |---|---:|---|
 | Global rules | 1 | `CLAUDE.md` |
-| Skills | 11 | `commands/*.md` |
+| Skills | 12 | `commands/*.md` |
 | Hooks | 14 | `hooks/*.sh` + `settings.json` |
 | Agents | 3 | `agents/*.md` |
 | Memory files | 11 (+ index) | `memory/*.md` |

@@ -11,7 +11,7 @@ cp ~/.claude/CLAUDE.md CLAUDE.md
 cp ~/.claude/settings.json settings.json
 
 # Custom skills only (skip pre-existing globals like debug-segmentation / review-code)
-for name in critique cluster-traffic sessions orient onboard scaffold-agent scaffold-analyze anti-fabrication grant-work-mode covariate-screen scaffold-discipline; do
+for name in critique cluster-traffic sessions orient checkpoint onboard scaffold-agent scaffold-analyze anti-fabrication grant-work-mode covariate-screen scaffold-discipline; do
   src=~/.claude/commands/$name.md
   [ -f "$src" ] && cp "$src" commands/
 done

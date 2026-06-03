@@ -1,4 +1,4 @@
-# Skills (11)
+# Skills (12)
 
 Custom skills live in `commands/*.md` and **auto-fire** when a prompt matches the TRIGGER clause at the top of each file. You can also invoke any of them explicitly as `/<name>`.
 
@@ -13,6 +13,7 @@ Grouped by **portability** — if you're adapting this repo, tier 1 transfers to
 |---|---|---|
 | `critique` | Multi-agent adversarial review (3–4 personas); auto-adds a Frame-skeptic in grant context; wires `dfg-reviewer` for the methodology slot; `dissent-auditor` meta-check at step 5.5 | "review", "critique", "launch [N] adversarial agents" |
 | `orient` | Post-compaction state report; project mode vs vault mode; reads the daily-note CLAUDE SESSIONS block | "where are we", "what was I doing", post-compaction context |
+| `checkpoint` | Write-side complement to `/orient`: writes a dated handoff doc (committed state, in-flight 4-state, the exact resume sequence, gates) so a fresh window resumes fast + safely | "checkpoint", "save a handoff", "running low on context", "before we stop" |
 | `sessions` | Maintains the daily-note `CLAUDE SESSIONS:` block | Session start / end |
 | `onboard` | Re-runs the meta-analysis methodology when friction patterns re-emerge | "analyze how I use you", "audit my Claude setup" |
 | `scaffold-agent` | Bootstraps a new subagent spec with the converged conventions | "scaffold a new agent" |

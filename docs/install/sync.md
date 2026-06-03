@@ -15,7 +15,7 @@ git push
 - `~/.claude/CLAUDE.md` and `~/.claude/settings.json`
 - All 14 hooks + the hook test harness (`hooks/tests/`)
 - All 3 agents and the `scripts/` helpers
-- The **11 custom skills** named in the whitelist at `sync.sh:14` (it skips any pre-existing global commands you didn't author)
+- The **12 custom skills** named in the whitelist at `sync.sh:14` (it skips any pre-existing global commands you didn't author)
 - Durable memory, from the directory derived from `$HOME/data/code` (same sanitizing rule `install.sh` uses)
 - The vault meta-analyses (`meta_claude_usage_*.md`)
 

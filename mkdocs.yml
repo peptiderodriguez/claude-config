@@ -78,7 +78,7 @@ nav:
       - The CLAUDE.md taxonomy: philosophy/rules.md
       - How auto-firing works: philosophy/auto-firing.md
   - Catalog:
-      - Skills (11): catalog/skills.md
+      - Skills (12): catalog/skills.md
       - Hooks (14): catalog/hooks.md
       - Agents (3): catalog/agents.md
       - Memory (11): catalog/memory.md
