@@ -23,3 +23,5 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
       - name: Fresh-install integration test
         run: bash tests/test_install.sh
+      - name: Docs-consistency gate (docs must match the repo)
+        run: bash tests/test_docs_consistency.sh
